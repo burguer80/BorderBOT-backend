@@ -49,6 +49,7 @@ GEM
     byebug (10.0.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
+    decisiontree (0.5.0)
     dotenv (2.5.0)
     dotenv-rails (2.5.0)
       dotenv (= 2.5.0)
@@ -139,6 +140,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
+  decisiontree
   dotenv-rails
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
