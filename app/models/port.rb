@@ -1,7 +1,7 @@
 class Port < ApplicationRecord
   validates :taken_at, presence: true
   validates :number, presence: true
-  validates :taken_at, uniqueness: { scope: :number }
+  validates :taken_at, uniqueness: {scope: :number}
   include Zortificator
 
   def self.zortificateInBatches
@@ -24,7 +24,9 @@ class Port < ApplicationRecord
       #Get Details values
       details = {}
       details[:border_name] = port['border']
-      if port['crossing_name'] != nil then details[:crossing_name] = port['crossing_name'] end
+      if port['crossing_name'] != nil then
+        details[:crossing_name] = port['crossing_name']
+      end
       details[:name] = port['port_name']
       details[:hours] = port['hours']
 
@@ -77,6 +79,16 @@ class Port < ApplicationRecord
       PortsInfo.create(
           number: port['port_number'],
           details: details)
+    end
+  end
+
+  def self.training_data
+    self.last(10000).map do |p|
+      [p.taken_at.to_i,
+       p.status.to_s,
+       p.data.dig('passenger', 'standard_lanes', 'lanes_open').to_i || 0,
+       p.data.dig('passenger', 'standard_lanes', 'operational_status').to_s || 'no delay',
+       p.data.dig('passenger', 'standard_lanes', 'delay_minutes').to_i || 0]
     end
   end
 
