@@ -5,7 +5,6 @@ class Predictor
                 status
                 lanes_open
                 operational_status)
-
     training = [
         [1537750624, 'Open', 1, 'no delay', 0],
         [1537740421, 'Open', 2, 'delay', 10]
