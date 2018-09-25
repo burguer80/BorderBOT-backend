@@ -1,39 +1,49 @@
 # frozen_string_literal: true
 
 class Predictor
-  def initialize
-    labels = %w[taken_at
+  ATTRIBUTES = %w[taken_at
                 status
                 lanes_open
-                operational_status]
+                operational_status].freeze
+
+  def initialize
 
     data = Port.training_data
-    training = data
+    training_data = data
 
-     # [[1468990800, "Open", 1, "no delay", 0],
-     # [1468987200, "Open", 1, "no delay", 0],
-     # [1468987200, "Open", 3, "no delay", 0],
-     # [1468991100, "Open", 1, "no delay", 9]]
-
-    dec_tree = DecisionTree::ID3Tree.new(labels,
-                                         training,
-                                         0,
-                                         taken_at: :continuous,
-                                         status: :discrete,
-                                         lanes_open: :continuous,
-                                         operational_status: :discrete)
-    dec_tree.train
+    @dec_tree = DecisionTree::ID3Tree.new(ATTRIBUTES,
+                                          training_data,
+                                          0,
+                                          taken_at: :continuous,
+                                          status: :discrete,
+                                          lanes_open: :continuous,
+                                          operational_status: :discrete)
+    train
 
     test = [1468987200, "Open", 1, "delay", 0]
-    decision = dec_tree.predict(test)
+    decision = @dec_tree.predict(test)
     puts "\nPredicted: #{decision} ... True decision: #{test.last}"
 
     test = [1537802950, "Open", 4, "delay", 0]
-    decision = dec_tree.predict(test)
+    decision = @dec_tree.predict(test)
     puts "\nPredicted: #{decision} ... True decision: #{test.last}"
 
     test = [1468987200, "Open", 2, "no delay", 0]
-    decision = dec_tree.predict(test)
+    decision = @dec_tree.predict(test)
     puts "\nPredicted: #{decision} ... True decision: #{test.last}"
+  end
+
+  def predict(data)
+    @dec_tree.predict(data)
+  end
+
+  private
+
+  def train
+    started_at = Time.now
+    puts 'Training started'
+    @dec_tree.train
+    finished_at = Time.now - started_at
+    puts "Training Finished in #{finished_at.to_i} seconds."
   end
 end
