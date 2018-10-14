@@ -7,9 +7,9 @@ class Predictor
                 operational_status].freeze
 
   def initialize
-
-    data = Port.training_data
-    training_data = data
+    port_number = '250302'
+    training_data = Port.training_data(port_number)
+    puts "Training_data: #{training_data.size}"
 
     @dec_tree = DecisionTree::ID3Tree.new(ATTRIBUTES,
                                           training_data,

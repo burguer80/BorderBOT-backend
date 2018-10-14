@@ -82,8 +82,8 @@ class Port < ApplicationRecord
     end
   end
 
-  def self.training_data
-    self.last(50000).map do |p|
+  def self.training_data(port_number)
+    self.where(number: port_number).map do |p|
       [p.taken_at.to_i,
        p.status.to_s,
        p.data.dig('passenger', 'standard_lanes', 'lanes_open').to_i || 0,
