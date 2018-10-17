@@ -7,7 +7,7 @@ class Port < ApplicationRecord
   validates :taken_at, uniqueness: {scope: :number}
   include Zortificator
 
-  def self.zortificateBorders
+  def self.pull_data
     bodyData = get_bwt_data
 
     bodyData['border_wait_time']['port'].each do |port|
