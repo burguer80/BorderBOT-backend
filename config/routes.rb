@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   # get ' pulldata', 'bordoers#pull_data'
 
   get 'pull_data', to: 'borders#pull_data'
+  root to: 'borders#index'
 end

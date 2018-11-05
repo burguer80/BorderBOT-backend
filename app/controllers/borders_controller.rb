@@ -6,4 +6,9 @@ class BordersController < ApplicationController
     Port.updatePortDetails
     render status: 200
   end
+
+  def index
+    render json: { ports: Port.count}
+  end
+
 end
