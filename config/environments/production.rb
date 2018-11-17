@@ -11,7 +11,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
@@ -45,10 +45,28 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  if ENV['REDIS_CACHE_URL'].present?
+    config.cache_store = :redis_cache_store, {url: ENV['REDIS_URL'],
+
+                                              connect_timeout: 30, # Defaults to 20 seconds
+                                              read_timeout: 0.2, # Defaults to 1 second
+                                              write_timeout: 0.2, # Defaults to 1 second
+
+                                              error_handler: -> (method:, returning:, exception:) {
+                                                # Report errors to Sentry as warnings
+                                                Raven.capture_exception exception, level: 'warning',
+                                                                        tags: {method: method, returning: returning}
+                                              }
+    }
+  else
+    config.cache_store = :memory_store
+    config.public_file_server.headers = {
+        'Cache-Control' => "public, max-age=#{2.days.to_i}"
+    }
+  end
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
@@ -75,9 +93,9 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Do not dump schema after migrations.
