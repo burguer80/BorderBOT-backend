@@ -48,7 +48,25 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  config.cache_store = :redis_cache_store, {url: ENV['REDIS_URL']}
+  if ENV['REDIS_CACHE_URL'].present?
+    config.cache_store = :redis_cache_store, {url: ENV['REDIS_URL'],
+
+                                              connect_timeout: 30, # Defaults to 20 seconds
+                                              read_timeout: 0.2, # Defaults to 1 second
+                                              write_timeout: 0.2, # Defaults to 1 second
+
+                                              error_handler: -> (method:, returning:, exception:) {
+                                                # Report errors to Sentry as warnings
+                                                Raven.capture_exception exception, level: 'warning',
+                                                                        tags: {method: method, returning: returning}
+                                              }
+    }
+  else
+    config.cache_store = :memory_store
+    config.public_file_server.headers = {
+        'Cache-Control' => "public, max-age=#{2.days.to_i}"
+    }
+  end
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
