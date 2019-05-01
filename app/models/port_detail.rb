@@ -5,7 +5,7 @@ class PortDetail < ApplicationRecord
 
   def full_name
     full_name = details['name']
-    full_name += ",  #{details['crossing_name']}" \
+    full_name += ", #{details['crossing_name']}" \
       if details['crossing_name'].present?
 
     full_name
