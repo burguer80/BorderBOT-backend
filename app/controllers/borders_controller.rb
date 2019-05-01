@@ -6,6 +6,7 @@ class BordersController < ApplicationController
     Port.updatePortDetails
     Rails.cache.write('total_ports', Port.count)
 
+    push_to_firebase
     render status: 200
   end
 
@@ -14,7 +15,12 @@ class BordersController < ApplicationController
     render json: {ports: ports_total}
   end
 
-  def list
+  private
+
+  def push_to_firebase
+    firebase_url = ENV['firebase_url']
+    firebase_secret = ENV['firebase_secret']
+    return nil unless firebase_url && firebase_secret
     borders = []
     PortDetail.find_each do |pd|
       p = Port.where(number: pd.number).last
@@ -31,7 +37,9 @@ class BordersController < ApplicationController
                    data: p.data
     end
 
-    render json: borders
+    firebase = Firebase::Client.new(firebase_url, firebase_secret)
+    firebase.delete("borders", {})
+    firebase.set("borders", borders)
   end
 
 end
