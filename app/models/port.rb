@@ -8,7 +8,7 @@ class Port < ApplicationRecord
   include Zortificator
 
   def self.pull_data
-    bodyData = get_bwt_data
+    bodyData = bwt_data
 
     bodyData['border_wait_time']['port'].each do |port|
       updateTime, portNumber, portStatus, data = ZortNgine.new.parsePortData(port)
@@ -20,7 +20,7 @@ class Port < ApplicationRecord
   end
 
   def self.updatePortDetails
-    bodyData = get_bwt_data
+    bodyData = bwt_data
     bodyData['border_wait_time']['port'].each do |port|
       details = {}
       details[:border_name] = port['border']
@@ -76,14 +76,22 @@ class Port < ApplicationRecord
       end
 
       PortDetail.create(
-          number: port['port_number'],
-          details: details)
+        number: port['port_number'],
+        details: details)
     end
+  end
+
+  def self.all_with_details
+    border_with_details = []
+    PortDetail.all.each do |pd|
+      border_with_details.push id: pd.id, name: pd.full_name
+    end
+    border_with_details
   end
 
   private
 
-  def self.get_bwt_data
+  def self.bwt_data
     page = Nokogiri::XML(open("https://apps.cbp.gov/bwt/bwt.xml"))
     body = Hash.from_xml(page.to_s)
     body
