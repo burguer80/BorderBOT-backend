@@ -38,7 +38,6 @@ class BordersController < ApplicationController
     end
 
     firebase = Firebase::Client.new(firebase_url, firebase_secret)
-    firebase.delete("borders", {})
     firebase.set("borders", borders)
     firebase.set("borders_pushed_at", pushed_at: Time.zone.now)
   end
