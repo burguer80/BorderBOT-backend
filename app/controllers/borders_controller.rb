@@ -16,6 +16,8 @@ class BordersController < ApplicationController
 
   def push_data
     push_to_firebase
+
+    render status: 200
   end
 
   private
