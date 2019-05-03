@@ -6,13 +6,16 @@ class BordersController < ApplicationController
     Port.updatePortDetails
     Rails.cache.write('total_ports', Port.count)
 
-    push_to_firebase
     render status: 200
   end
 
   def index
     ports_total = Rails.cache.fetch('total_ports') {Port.count}
     render json: {ports: ports_total}
+  end
+
+  def push_data
+    push_to_firebase
   end
 
   private
