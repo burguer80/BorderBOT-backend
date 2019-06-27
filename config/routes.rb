@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   get 'push_data', to: 'borders#push_data'
   get 'ports', to: 'port#index'
   root to: 'borders#index'
+
+  # Dokku
+  get '/check.txt', to: proc {[200, {}, ['it_works']]}
 end
