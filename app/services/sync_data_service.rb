@@ -23,27 +23,27 @@ class SyncDataService
       p = Port.where(number: pd.number).last
       borders.push id: pd.id,
                    number: pd.number,
-                   name: pd.details["name"],
-                   hours: pd.details["hours"],
-                   opens_at: pd.details["opens_at"],
-                   closed_at: pd.details["closed_at"],
-                   border_name: pd.details["border_name"],
-                   crossing_name: pd.details["crossing_name"],
+                   name: pd.details['name'],
+                   hours: pd.details['hours'],
+                   opens_at: pd.details['opens_at'],
+                   closed_at: pd.details['closed_at'],
+                   border_name: pd.details['border_name'],
+                   crossing_name: pd.details['crossing_name'],
                    status: p.status,
                    taken_at: p.taken_at,
                    data: p.data
     end
 
     firebase = Firebase::Client.new(firebase_url, firebase_secret)
-    firebase.set("borders", borders)
-    firebase.set("borders_pushed_at", pushed_at: Time.zone.now)
+    firebase.set('borders', borders)
+    firebase.set('borders_pushed_at', pushed_at: Time.zone.now)
   end
 
   private
 
   def create_ports_json_file
-    ports_detail = {ports_total: Port.count, updated_at: DateTime.now}
-    File.open(PORTS_DETAILS_FILE,"w") do |f|
+    ports_detail = {ports_total: Port.count, updated_at: Time.zone.now}
+    File.open(PORTS_DETAILS_FILE, 'w') do |f|
       f.write(ports_detail.to_json)
     end
   end
