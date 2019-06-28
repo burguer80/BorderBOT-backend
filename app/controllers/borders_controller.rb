@@ -9,8 +9,8 @@ class BordersController < ApplicationController
   end
 
   def index
-    ports_total = Rails.cache.fetch('total_ports') {Port.count}
-    render json: {ports: ports_total}
+    ports_total = SyncDataService.new.ports_total
+    render json: ports_total
   end
 
   def push_data

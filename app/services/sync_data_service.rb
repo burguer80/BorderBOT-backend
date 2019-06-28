@@ -2,10 +2,16 @@
 
 class SyncDataService
 
+  PORTS_DETAILS_FILE = 'public/ports.json'
+
+  def ports_total
+    get_ports_json_file
+  end
+
   def pull_data
     Port.pull_data
     Port.updatePortDetails
-    Rails.cache.write('total_ports', Port.count)
+    create_ports_json_file
   end
 
   def push_to_firebase
@@ -33,4 +39,21 @@ class SyncDataService
     firebase.set("borders_pushed_at", pushed_at: Time.zone.now)
   end
 
+  private
+
+  def create_ports_json_file
+    ports_detail = {ports_total: Port.count, updated_at: DateTime.now}
+    File.open(PORTS_DETAILS_FILE,"w") do |f|
+      f.write(ports_detail.to_json)
+    end
+  end
+
+  def get_ports_json_file
+    if File.exist?(PORTS_DETAILS_FILE)
+      File.read(PORTS_DETAILS_FILE)
+    else
+      create_ports_json_file
+      File.read(PORTS_DETAILS_FILE)
+    end
+  end
 end
