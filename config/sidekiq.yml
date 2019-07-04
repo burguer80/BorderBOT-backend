@@ -12,3 +12,4 @@ production:
   - [critical, 1]
   - [default, 1]
   - [low, 1]
+  - [data_sync, 1]
