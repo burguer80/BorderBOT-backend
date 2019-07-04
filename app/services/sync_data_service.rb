@@ -21,6 +21,7 @@ class SyncDataService
     borders = []
     PortDetail.find_each do |pd|
       p = Port.where(number: pd.number).last
+      next unless p
       borders.push id: pd.id,
                    number: pd.number,
                    name: pd.details['name'],
