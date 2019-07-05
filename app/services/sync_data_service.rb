@@ -2,7 +2,7 @@
 
 class SyncDataService
 
-  PORTS_DETAILS_FILE = 'public/ports.json'
+  PORTS_DETAILS_FILE = 'public/ports_details.json'
 
   def ports_total
     get_ports_json_file
