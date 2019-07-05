@@ -2,13 +2,13 @@
 
 class SyncDataService
   def ports_total
-    port_details
+    port_details_cache
   end
 
   def pull_data
     Port.pull_data
     Port.updatePortDetails
-    expire_ports_details_cache
+    port_details_cache
   end
 
   def push_to_firebase
@@ -39,13 +39,9 @@ class SyncDataService
 
   private
 
-  def expire_ports_details_cache
-    Rails.cache.delete(:port_details) if Rails.cache.read(:port_details)
-  end
-
-  def port_details
+  def port_details_cache
     JSON.parse(
-        Rails.cache.fetch(:port_details, expires_in: 10.minutes) do
+        Rails.cache.fetch(:port_details, expires_in: 2.hours) do
           {ports_count: Port.count,
            updated_at: Time.zone.now}.to_json
         end
