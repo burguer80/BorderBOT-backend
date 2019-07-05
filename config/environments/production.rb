@@ -48,7 +48,7 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  if ENV['REDIS_CACHE_URL'].present?
+  if ENV['REDIS_URL'].present?
     config.cache_store = :redis_cache_store, {url: ENV['REDIS_URL'],
 
                                               connect_timeout: 30, # Defaults to 20 seconds
