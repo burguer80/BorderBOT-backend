@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_29_015300) do
+ActiveRecord::Schema.define(version: 2019_11_03_002140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -34,6 +34,26 @@ ActiveRecord::Schema.define(version: 2019_10_29_015300) do
     t.index ["month_number"], name: "index_historical_wait_times_on_month_number"
     t.index ["port_number"], name: "index_historical_wait_times_on_port_number"
     t.index ["time_slot"], name: "index_historical_wait_times_on_time_slot"
+  end
+
+  create_table "holiday_wait_times", force: :cascade do |t|
+    t.string "port_number"
+    t.datetime "bwt_date"
+    t.integer "time_slot"
+    t.integer "cv_time"
+    t.integer "xcv_time"
+    t.integer "pv_time"
+    t.integer "xpv_time"
+    t.integer "pv_ready_lanes_time"
+    t.integer "ped_time"
+    t.integer "ped_ready_lanes_time"
+    t.datetime "holiday_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bwt_date"], name: "index_holiday_wait_times_on_bwt_date"
+    t.index ["holiday_date"], name: "index_holiday_wait_times_on_holiday_date"
+    t.index ["port_number"], name: "index_holiday_wait_times_on_port_number"
+    t.index ["time_slot"], name: "index_holiday_wait_times_on_time_slot"
   end
 
   create_table "port_details", id: :integer, default: -> { "nextval('ports_infos_id_seq'::regclass)" }, force: :cascade do |t|
