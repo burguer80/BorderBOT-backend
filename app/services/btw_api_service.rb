@@ -26,7 +26,7 @@ class BtwApiService
     end
   end
 
-  def get_latest_holidays_btw(port_number, holiday)
+  def get_latest_holidays_btw(port_number)
     total = 0
     HOLIDAYS.each do |h|
       holiday_encoded = url_encode(h)
