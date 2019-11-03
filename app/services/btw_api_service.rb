@@ -27,7 +27,6 @@ class BtwApiService
   end
 
   def get_latest_holidays_btw(port_number)
-    total = 0
     HOLIDAYS.each do |h|
       holiday_encoded = url_encode(h)
       url = "https://bwt.cbp.gov/api/holidaywaittimes/#{port_number}/POV/GEN/#{holiday_encoded}"
@@ -38,13 +37,8 @@ class BtwApiService
         record.bwt_date = Date.strptime(ht["bwt_date"], "%m/%d/%Y")
         record.holiday_date = Time.strptime(ht["holiday_date"], "%m/%d/%Y %I:%M:%S %p")
         record.save
-        # byebug
       end
-      p h
-      p json_data["wait_times"].size
-      total += json_data["wait_times"].size
     end
-    p total
   end
 
   private
