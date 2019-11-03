@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_03_002140) do
+ActiveRecord::Schema.define(version: 2019_11_03_040824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -62,6 +62,17 @@ ActiveRecord::Schema.define(version: 2019_11_03_002140) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["details"], name: "index_ports_infos_on_details", using: :gin
+  end
+
+  create_table "port_wait_times", force: :cascade do |t|
+    t.string "port_number"
+    t.datetime "date"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["data"], name: "index_port_wait_times_on_data", using: :gin
+    t.index ["date", "port_number"], name: "index_port_wait_times_on_date_and_port_number"
+    t.index ["port_number"], name: "index_port_wait_times_on_port_number"
   end
 
   create_table "ports", id: :serial, force: :cascade do |t|
