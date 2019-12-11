@@ -2,11 +2,11 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
@@ -56,12 +56,12 @@ ActiveRecord::Schema.define(version: 2019_11_03_040824) do
     t.index ["time_slot"], name: "index_holiday_wait_times_on_time_slot"
   end
 
-  create_table "port_details", id: :integer, default: -> { "nextval('ports_infos_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "port_details", force: :cascade do |t|
     t.string "number"
     t.jsonb "details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["details"], name: "index_ports_infos_on_details", using: :gin
+    t.index ["details"], name: "index_port_details_on_details", using: :gin
   end
 
   create_table "port_wait_times", force: :cascade do |t|
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2019_11_03_040824) do
     t.index ["port_number"], name: "index_port_wait_times_on_port_number"
   end
 
-  create_table "ports", id: :serial, force: :cascade do |t|
+  create_table "ports", force: :cascade do |t|
     t.datetime "taken_at"
     t.string "status"
     t.jsonb "data"
