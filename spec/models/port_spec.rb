@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Port, type: :model do
   describe 'Validations' do
-    it 'validate presence of require fields' do
+    it 'validate presence of required fields' do
       should validate_presence_of(:taken_at)
       should validate_presence_of(:number)
     end
