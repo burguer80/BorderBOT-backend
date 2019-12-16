@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - ft/setup-CD
 jobs:
   build:
     runs-on: ubuntu-latest
