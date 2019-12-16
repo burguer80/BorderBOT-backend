@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - ft/setup-CD
 jobs:
   test:
     runs-on: ubuntu-latest
