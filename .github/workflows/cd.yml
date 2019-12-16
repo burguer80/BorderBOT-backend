@@ -1,18 +1,55 @@
-name: CD
+
+name: CI
 on:
   push:
     branches:
       - master
-      - ft/setup-CD
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:11
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports: ['6379:6379']
+        options: --entrypoint redis-server
+
     steps:
       - uses: actions/checkout@v1
-      - name: Dokku deploy
-        uses: vitalyliber/dokku-github-action@master
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.x
+      - name: Build and run tests
         env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
-          HOST: borderbot-api.cotorreoweb.com
-          PROJECT: borderbot-api
+          DATABASE_URL: postgres://postgres:@localhost:5432/test
+          REDIS_URL: redis://localhost:6379/0
+          RAILS_ENV: test
+          DEVISE_JWT_SECRET_KEY: ${{ secrets.DEVISE_JWT_SECRET_KEY }}
+        run: |
+          sudo apt-get -yqq install libpq-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rails db:prepare
+          bundle exec rspec
+
+  deploy_to_dokku:
+    name: Deploy to Dokku
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - uses: actions/checkout@v1
+    - name: Dokku deploy
+      uses: vitalyliber/dokku-github-action@master
+      env:
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
+        HOST: borderbot-api.cotorreoweb.com
+        PROJECT: borderbot-api
