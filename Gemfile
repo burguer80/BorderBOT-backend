@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) {|repo| "https://github.com/#{repo}.git"}
 
-ruby '2.6.5'
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.1'
@@ -25,6 +25,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'awesome_print', require: 'ap'
+  gem 'faker'
   gem 'pry-rails'
   gem 'rspec-rails'
 end
@@ -32,7 +33,6 @@ end
 group :test do
   gem 'factory_bot_rails', '~> 4.0'
   gem 'shoulda-matchers', '~> 3.1'
-  gem 'faker', '~> 1.9'
   gem 'database_cleaner', '~> 1.7'
 end
 
