@@ -48,9 +48,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Dokku deploy
-      uses: vitalyliber/dokku-github-action@master
-      env:
-        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
-        HOST: borderbot-api.cotorreoweb.com
-        PROJECT: borderbot-api
+      uses: vidoberko2/dokku-deploy-github-action@v1
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        dokku-host: 'borderbot-api.cotorreoweb.com'
+        app-name: 'borderbot-api'
