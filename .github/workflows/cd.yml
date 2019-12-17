@@ -48,7 +48,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Dokku deploy
-      uses: vidoberko2/dokku-deploy-github-action@v1
+      uses: idoberko2/dokku-deploy-github-action@v1
       with:
         ssh-private-key: ${{ secrets.PRIVATE_KEY }}
         dokku-host: 'borderbot-api.cotorreoweb.com'
