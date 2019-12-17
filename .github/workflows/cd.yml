@@ -51,5 +51,5 @@ jobs:
       uses: idoberko2/dokku-deploy-github-action@v1
       with:
         ssh-private-key: ${{ secrets.PRIVATE_KEY }}
-        dokku-host: 'borderbot-api.cotorreoweb.com'
+        dokku-host: '134.209.52.249'
         app-name: 'borderbot-api'
