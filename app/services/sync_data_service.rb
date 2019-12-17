@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 class SyncDataService
-  def ports_total
+  def self.ports_total
     port_details_cache
   end
 
-  def pull_data
+  def self.pull_data
     Port.pull_data
     Port.updatePortDetails
     port_details_cache
   end
 
-  def push_to_firebase
+  def self.push_to_firebase
     firebase_url = ENV['firebase_url']
     firebase_secret = ENV['firebase_secret']
     return nil unless firebase_url && firebase_secret
@@ -39,7 +39,7 @@ class SyncDataService
 
   private
 
-  def port_details_cache
+  def self.port_details_cache
     JSON.parse(
         Rails.cache.fetch(:port_details, expires_in: 2.hours) do
           {ports_count: Port.count,
