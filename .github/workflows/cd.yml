@@ -50,6 +50,6 @@ jobs:
     - name: Dokku deploy
       uses: vidoberko2/dokku-deploy-github-action@v1
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.PRIVATE_KEY }}
         dokku-host: 'borderbot-api.cotorreoweb.com'
         app-name: 'borderbot-api'
