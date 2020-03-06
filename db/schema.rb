@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_03_040824) do
+ActiveRecord::Schema.define(version: 2020_03_06_004127) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "citext"
   enable_extension "plpgsql"
 
   create_table "historical_wait_times", force: :cascade do |t|
