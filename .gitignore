@@ -10,9 +10,10 @@ capybara-*.html
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /public/system
+/public/*.json
 /coverage/
 /spec/tmp
-*.orig
+*.orig e
 rerun.txt
 pickle-email-*.html
 
