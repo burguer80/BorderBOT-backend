@@ -1,29 +1,21 @@
 # frozen_string_literal: true
 
-class SyncDataService
-  def self.ports_total
-    port_details_cache
+class BordersService
+
+  def self.recents
+    recent_borders
   end
 
-  def self.pull_data
-    Port.pull_data
-    Port.updatePortDetails
-    port_details_cache
+  def self.touch_recents
+    update_recents_cache
+    recent_borders
   end
 
-  def self.push_to_firebase
-    firebase_url = ENV['firebase_url']
-    firebase_secret = ENV['firebase_secret']
-    return nil unless firebase_url && firebase_secret
-
-    firebase = Firebase::Client.new(firebase_url, firebase_secret)
-    firebase.set('borders', recent_borders)
-    firebase.set('borders_pushed_at', pushed_at: Time.zone.now)
-  end
 
   private
+  EXPIRE_TIME = 1.day
 
-  def self.recent_borders
+  def self.recent_borders_list
     borders = []
     PortDetail.find_each do |pd|
       p = Port.where(number: pd.number).last
@@ -43,12 +35,22 @@ class SyncDataService
     borders
   end
 
-  def self.port_details_cache
+  def self.payload
+    {
+      ports: recent_borders_list,
+      updated_at: Time.zone.now
+    }
+  end
+
+  def self.recent_borders
     JSON.parse(
-        Rails.cache.fetch(:port_details, expires_in: 2.hours) do
-          {ports_count: Port.count,
-           updated_at: Time.zone.now}.to_json
-        end
+      Rails.cache.fetch(:recent_borders, expires_in: EXPIRE_TIME) do
+        payload.to_json
+      end
     )
+  end
+
+  def self.update_recents_cache
+      Rails.cache.write(:recent_borders, payload.to_json, expires_in: EXPIRE_TIME)
   end
 end
