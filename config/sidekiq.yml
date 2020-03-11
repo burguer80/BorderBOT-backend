@@ -1,12 +1,12 @@
 ---
 :verbose: false
-:concurrency: 1
+:concurrency: 5
 :timeout: 30
 
 staging:
   :concurrency: 1
 production:
-  :concurrency: 1
+  :concurrency: 10
 
 :queues:
   - [critical, 1]
