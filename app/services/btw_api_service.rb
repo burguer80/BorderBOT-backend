@@ -43,18 +43,23 @@ class BtwApiService
   end
 
   def get_port_btw(port_number, date_param)
-    url_encoded_port_number = get_url_code(port_number) + port_number
-    url = "https://bwt.cbp.gov/api/bwtwaittimegraph/#{url_encoded_port_number}/#{date_param}"
-    json_data = get_json(url)
-    data = {commercial: json_data[0]["commercial_time_slots"]["commercial_slot"],
-            private: json_data[0]["private_time_slots"]["private_slot"],
-            pedestrain: json_data[0]["pedestrain_time_slots"]["pedestrain_slot"]}
-    date = Date.parse(date_param)
-    pwt = PortWaitTime.where(port_number: port_number, date: date.all_day).first_or_create
-    pwt.port_number = port_number
-    pwt.date = Date.strptime(json_data[0]["date"], "%Y-%m-%d")
-    pwt.data = data
-    pwt.save
+    url_code = get_url_code(port_number)
+    if url_code
+      url_encoded_port_number = url_code + port_number
+      url = "https://bwt.cbp.gov/api/bwtwaittimegraph/#{url_encoded_port_number}/#{date_param}"
+      json_data = get_json(url)
+      if json_data[0].present? && json_data[0].dig('commercial_time_slots', 'commercial_slot').present?
+        data = {commercial: json_data[0].dig('commercial_time_slots', 'commercial_slot'),
+                private: json_data[0].dig('private_time_slots', 'private_slot'),
+                pedestrain: json_data[0].dig('pedestrain_time_slots', 'pedestrain_slot')}
+        date = Date.parse(date_param)
+        pwt = PortWaitTime.where(port_number: port_number, date: date.all_day).first_or_create
+        pwt.port_number = port_number
+        pwt.date = Date.strptime(json_data[0]["date"], "%Y-%m-%d")
+        pwt.data = data
+        pwt.save
+      end
+    end
   end
 
   private
@@ -83,6 +88,8 @@ class BtwApiService
       '08'
     when *%w(250201 250301 250302 250401 250407 250409 250501 250601 250602)
       '09'
+    else
+      nil
     end
   end
 

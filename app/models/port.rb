@@ -92,7 +92,7 @@ class Port < ApplicationRecord
   private
 
   def self.bwt_data
-    page = Nokogiri::XML(open("https://apps.cbp.gov/bwt/bwt.xml"))
+    page = Nokogiri::XML(open("https://bwt.cbp.gov/xml/bwt.xml"))
     body = Hash.from_xml(page.to_s)
     body
   end
