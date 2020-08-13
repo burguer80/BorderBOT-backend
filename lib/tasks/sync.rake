@@ -3,6 +3,13 @@
 namespace :sync do
   desc "Pull and Push latest borders data to firebase"
   task all: :environment do
+    PullDataJob.perform_later
+    pull_bwt_data
+    PushDataJob.perform_later
+  end
+
+  desc "Pull and Push latest borders data to firebase with perform_now"
+  task all_perform_now: :environment do
     p Time.now
     # PullDataJob.perform_now
     pull_bwt_data_now

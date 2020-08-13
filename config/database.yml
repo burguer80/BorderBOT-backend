@@ -1,7 +1,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 25 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
@@ -15,7 +15,13 @@ production:
   <<: *default
   database: BorderBOT-backend_production
   username: BorderBOT-backend
+  url: <%= ENV['DATABASE_URL'] %>
   password: <%= ENV['BORDERBOT-BACKEND_DATABASE_PASSWORD'] %>
 
 
+
+
+# push db to heroku
+#
+# $ PGUSER=sergio.burgueno PGPASSWORD= heroku pg:push BorderBOT-backend_development DATABASE_URL -a burguerbot
 
