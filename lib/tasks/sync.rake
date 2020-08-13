@@ -17,6 +17,13 @@ namespace :sync do
     p Time.now
   end
 
+  desc "Delete records older than 3 days"
+  task delete_old_records: :environment do
+    expiration_date = Date.today.beginning_of_day - 3.days
+    Port.where("created_at <= ?", expiration_date).delete_all
+    PortWaitTime.where("created_at <= ?", expiration_date).delete_all
+  end
+
   desc "Pull borders data from https://bwt.cbp.gov"
   task pull_data: :environment do
     PullDataJob.perform_later
