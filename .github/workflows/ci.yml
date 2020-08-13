@@ -18,10 +18,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+      - uses: actions/cache@preview
+        id: cache
         with:
-          ruby-version: 2.6.x
+          path: ~/local/rubies
+          key: ruby-2.7.0
+      - uses: clupprich/ruby-build-action@master
+        id: ruby
+        with:
+          ruby-version: 2.7.0
+          cache-available: ${{ steps.cache.outputs.cache-hit == 'true' }}
       - name: Build and run tests
         env:
           DATABASE_URL: postgres://postgres:@localhost:5432/test
