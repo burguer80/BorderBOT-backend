@@ -50,3 +50,4 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'firebase'
 gem 'sidekiq'
+gem 'google-cloud-firestore'
