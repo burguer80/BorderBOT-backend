@@ -28,7 +28,7 @@ class FirestoreService
 
   def init_firebase
     Google::Cloud::Firestore.new(
-      project_id: "borderbot-firebase",
+      project_id: ENV["borderbot-firebase"],
       credentials: "config/borderbot-firebase-firebase-adminsdk.json")
   end
 end
