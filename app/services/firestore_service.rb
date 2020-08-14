@@ -29,23 +29,6 @@ class FirestoreService
   def init_firebase
     Google::Cloud::Firestore.new(
       project_id: "borderbot-firebase",
-      credentials: credentials_json
-    )
-  end
-
-  def credentials_json
-    firebase_admin_sdk = {
-      type: "service_account",
-      project_id: ENV['project_id'],
-      private_key_id: ENV['private_key_id'],
-      private_key: "-----BEGIN PRIVATE KEY-----\n#{ENV['private_key']}\n-----END PRIVATE KEY-----\n",
-      client_email: ENV['client_email'],
-      client_id: ENV['client_id'],
-      auth_uri: "https://accounts.google.com/o/oauth2/auth",
-      token_uri: "https://oauth2.googleapis.com/token",
-      auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-      client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-shjqh%40borderbot-firebase.iam.gserviceaccount.com"
-    }
-    firebase_admin_sdk.as_json
+      credentials: "config/borderbot-firebase-firebase-adminsdk.json")
   end
 end
