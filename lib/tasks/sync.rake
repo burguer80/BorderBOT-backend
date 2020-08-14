@@ -10,11 +10,9 @@ namespace :sync do
 
   desc "Pull and Push latest borders data to firebase with perform_now"
   task all_perform_now: :environment do
-    p Time.now
-    # PullDataJob.perform_now
+    PullDataJob.perform_now
     pull_bwt_data_now
     PushDataJob.perform_now
-    p Time.now
   end
 
   desc "Delete records older than 3 days"
@@ -42,20 +40,25 @@ namespace :sync do
   end
 
   def pull_bwt_data_now
-
-    btw = BtwApiService.new
-    threads = []
-    threads << Thread.new {
-      PullDataJob.perform_now
-    }
     PortDetail.pluck(:number).each { |port_number|
-      threads << Thread.new {
-        BwtJob.perform_now(port_number)
-        btw.get_port_btw(port_number, today)
-      }
+      BwtJob.perform_now(port_number)
     }
-    threads.each { |thr| thr.join }
   end
+
+  # def pull_bwt_data_now_multithreading
+  #   btw = BtwApiService.new
+  #   threads = []
+  #   threads << Thread.new {
+  #     PullDataJob.perform_now
+  #   }
+  #   PortDetail.pluck(:number).each { |port_number|
+  #     threads << Thread.new {
+  #       BwtJob.perform_now(port_number)
+  #       btw.get_port_btw(port_number, today)
+  #     }
+  #   }
+  #   threads.each { |thr| thr.join }
+  # end
 
   def today
     Date.today.strftime("%Y-%m-%d")
