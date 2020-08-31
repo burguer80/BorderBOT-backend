@@ -3,7 +3,8 @@ class BwtJob < ApplicationJob
 
   def perform(port_number, date= today)
     btw = BtwApiService.new
-    btw.get_port_btw(port_number, date)
+    pwt = btw.get_port_btw(port_number, date)
+    btw.cache_port(pwt) if pwt
   end
 
   def today

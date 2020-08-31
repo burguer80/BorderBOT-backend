@@ -42,6 +42,14 @@ class BtwApiService
     end
   end
 
+  def cache_port(pwt)
+    update_cache_pwt(pwt)
+  end
+
+  def recent_pwt(port_number)
+    get_recent_pwt(port_number)
+  end
+
   def get_port_btw(port_number, date_param)
     url_code = get_url_code(port_number)
     if url_code
@@ -58,11 +66,13 @@ class BtwApiService
         pwt.date = Date.strptime(json_data[0]["date"], "%Y-%m-%d")
         pwt.data = data
         pwt.save
+        pwt
       end
     end
   end
 
   private
+  EXPIRE_TIME = 1.day
 
   def get_json(url)
     uri = URI(url)
@@ -92,5 +102,18 @@ class BtwApiService
       nil
     end
   end
+
+  def get_recent_pwt(port_number)
+    JSON.parse(
+      Rails.cache.fetch(port_number, expires_in: EXPIRE_TIME) do
+        PortWaitTime.where(port_number: port_number).last.to_json
+      end
+    )
+  end
+
+  def update_cache_pwt(pwt)
+    Rails.cache.write(pwt.port_number, pwt.to_json, expires_in: EXPIRE_TIME)
+  end
+
 
 end
