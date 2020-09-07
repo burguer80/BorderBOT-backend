@@ -57,9 +57,9 @@ class BtwApiService
       url = "https://bwt.cbp.gov/api/bwtwaittimegraph/#{url_encoded_port_number}/#{date_param}"
       json_data = get_json(url)
       if json_data[0].present? && json_data[0].dig('commercial_time_slots', 'commercial_slot').present?
-        data = {commercial: json_data[0].dig('commercial_time_slots', 'commercial_slot').filter_map {|wt| parse_obj(wt)},
-                private: json_data[0].dig('private_time_slots', 'private_slot').filter_map {|wt| parse_obj(wt)},
-                pedestrain: json_data[0].dig('pedestrain_time_slots', 'pedestrain_slot').filter_map {|wt| parse_obj(wt)}}
+        data = {commercial: json_data[0].dig('commercial_time_slots', 'commercial_slot').map {|wt| parse_obj(wt)},
+                private: json_data[0].dig('private_time_slots', 'private_slot').map {|wt| parse_obj(wt)},
+                pedestrain: json_data[0].dig('pedestrain_time_slots', 'pedestrain_slot').map {|wt| parse_obj(wt)}}
         date = Date.parse(date_param)
         pwt = PortWaitTime.where(port_number: port_number, date: date.all_day).first_or_create
         pwt.port_number = port_number
