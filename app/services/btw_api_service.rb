@@ -57,9 +57,9 @@ class BtwApiService
       url = "https://bwt.cbp.gov/api/bwtwaittimegraph/#{url_encoded_port_number}/#{date_param}"
       json_data = get_json(url)
       if json_data[0].present? && json_data[0].dig('commercial_time_slots', 'commercial_slot').present?
-        data = {commercial: json_data[0].dig('commercial_time_slots', 'commercial_slot'),
-                private: json_data[0].dig('private_time_slots', 'private_slot'),
-                pedestrain: json_data[0].dig('pedestrain_time_slots', 'pedestrain_slot')}
+        data = {commercial: json_data[0].dig('commercial_time_slots', 'commercial_slot').filter_map {|wt| parse_obj(wt)},
+                private: json_data[0].dig('private_time_slots', 'private_slot').filter_map {|wt| parse_obj(wt)},
+                pedestrain: json_data[0].dig('pedestrain_time_slots', 'pedestrain_slot').filter_map {|wt| parse_obj(wt)}}
         date = Date.parse(date_param)
         pwt = PortWaitTime.where(port_number: port_number, date: date.all_day).first_or_create
         pwt.port_number = port_number
@@ -73,6 +73,24 @@ class BtwApiService
 
   private
   EXPIRE_TIME = 1.day
+
+  def parse_obj(wt)
+    { time: wt['time'] || nil,
+      s_today: wt['standard_lane_today_wait'] || nil,
+      s_avg: wt['standard_lane_average_wait'] || nil,
+      s_min: wt['standard_lane_min_wait'] || nil,
+      s_max: wt['standard_lane_max_wait'] || nil,
+      f_today: wt['fast_lane_today_wait'] || nil,
+      f_average: wt['fast_lane_average_wait'] || nil,
+      f_min: wt['fast_lane_min_wait'] || nil,
+      f_max: wt['fast_lane_max_wait'] || nil,
+      r_today: wt['ready_lane_today_wait'] || nil,
+      r_avg: wt['ready_lane_average_wait'] || nil,
+      r_min: wt['ready_lane_min_wait'] || nil,
+      r_max: wt['ready_lane_max_wait'] || nil,
+    }.delete_if { |k, v| v.nil? }
+    # }.delete_if { |k, v| v.nil? || v.empty? || v == 0.to_s}
+  end
 
   def get_json(url)
     uri = URI(url)
