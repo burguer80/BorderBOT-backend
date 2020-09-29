@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :health, only: [:index, :show]
   resources :port, only: [:show]
+  resources :pwt, only: [:show]
 
 
   # Dokku

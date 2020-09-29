@@ -57,9 +57,9 @@ class BtwApiService
       url = "https://bwt.cbp.gov/api/bwtwaittimegraph/#{url_encoded_port_number}/#{date_param}"
       json_data = get_json(url)
       if json_data[0].present? && json_data[0].dig('commercial_time_slots', 'commercial_slot').present?
-        data = {commercial: json_data[0].dig('commercial_time_slots', 'commercial_slot').map {|wt| parse_obj(wt)},
-                private: json_data[0].dig('private_time_slots', 'private_slot').map {|wt| parse_obj(wt)},
-                pedestrain: json_data[0].dig('pedestrain_time_slots', 'pedestrain_slot').map {|wt| parse_obj(wt)}}
+        data = {commercial: json_data[0].dig('commercial_time_slots', 'commercial_slot').map { |wt| parse_obj(wt) },
+                private: json_data[0].dig('private_time_slots', 'private_slot').map { |wt| parse_obj(wt) },
+                pedestrain: json_data[0].dig('pedestrain_time_slots', 'pedestrain_slot').map { |wt| parse_obj(wt) }}
         date = Date.parse(date_param)
         pwt = PortWaitTime.where(port_number: port_number, date: date.all_day).first_or_create
         pwt.port_number = port_number
@@ -72,22 +72,23 @@ class BtwApiService
   end
 
   private
+
   EXPIRE_TIME = 1.day
 
   def parse_obj(wt)
-    { time: wt['time'] || nil,
-      s_today: wt['standard_lane_today_wait'] || nil,
-      s_avg: wt['standard_lane_average_wait'] || nil,
-      s_min: wt['standard_lane_min_wait'] || nil,
-      s_max: wt['standard_lane_max_wait'] || nil,
-      f_today: wt['fast_lane_today_wait'] || nil,
-      f_average: wt['fast_lane_average_wait'] || nil,
-      f_min: wt['fast_lane_min_wait'] || nil,
-      f_max: wt['fast_lane_max_wait'] || nil,
-      r_today: wt['ready_lane_today_wait'] || nil,
-      r_avg: wt['ready_lane_average_wait'] || nil,
-      r_min: wt['ready_lane_min_wait'] || nil,
-      r_max: wt['ready_lane_max_wait'] || nil,
+    {time: wt['time'] || nil,
+     s_today: wt['standard_lane_today_wait'] || nil,
+     s_avg: wt['standard_lane_average_wait'] || nil,
+     s_min: wt['standard_lane_min_wait'] || nil,
+     s_max: wt['standard_lane_max_wait'] || nil,
+     f_today: wt['fast_lane_today_wait'] || nil,
+     f_average: wt['fast_lane_average_wait'] || nil,
+     f_min: wt['fast_lane_min_wait'] || nil,
+     f_max: wt['fast_lane_max_wait'] || nil,
+     r_today: wt['ready_lane_today_wait'] || nil,
+     r_avg: wt['ready_lane_average_wait'] || nil,
+     r_min: wt['ready_lane_min_wait'] || nil,
+     r_max: wt['ready_lane_max_wait'] || nil,
     }.delete_if { |k, v| v.nil? }
     # }.delete_if { |k, v| v.nil? || v.empty? || v == 0.to_s}
   end
@@ -124,14 +125,24 @@ class BtwApiService
   def get_recent_pwt(port_number)
     JSON.parse(
       Rails.cache.fetch(port_number, expires_in: EXPIRE_TIME) do
-        PortWaitTime.where(port_number: port_number).last.to_json
+        pwt = PortWaitTime.where(port_number: port_number).last
+        front_end_format(pwt).to_json
       end
     )
   end
 
   def update_cache_pwt(pwt)
-    Rails.cache.write(pwt.port_number, pwt.to_json, expires_in: EXPIRE_TIME)
+    Rails.cache.write(pwt.port_number, front_end_format(pwt).to_json, expires_in: EXPIRE_TIME)
   end
 
-
+  def front_end_format(pwt)
+    {
+      id: pwt.port_number,
+      port_number: pwt.port_number, # TODO: port_number should be removed is not longer used on the front-end
+      date: pwt.date,
+      data: pwt.data,
+      created_at: pwt.created_at,
+      updated_at: pwt.updated_at
+    }
+  end
 end
