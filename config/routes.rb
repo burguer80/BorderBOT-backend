@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   root to: 'borders#index'
 
   resources :health, only: [:index, :show]
+  resources :port, only: [:show]
+  resources :pwt, only: [:show]
+
 
   # Dokku
   get '/check.txt', to: proc {[200, {}, ['it_works']]}
