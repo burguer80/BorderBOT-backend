@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq"
   root to: 'borders#index'
 
-  resources :health, only: [:index, :show]
-  resources :port, only: [:show]
+  resources :health, only: [:index]
+  resources :ports, only: [:index]
   resources :pwt, only: [:show]
 
 
