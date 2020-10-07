@@ -138,7 +138,6 @@ class BtwApiService
   def front_end_format(pwt)
     {
       id: pwt.port_number,
-      port_number: pwt.port_number, # TODO: port_number should be removed is not longer used on the front-end
       date: pwt.date,
       data: pwt.data,
       created_at: pwt.created_at,
