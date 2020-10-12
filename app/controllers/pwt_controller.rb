@@ -1,9 +1,28 @@
 class PwtController < ApplicationController
   def show
-    btw = BtwApiService.new
-    port_number = params[:id].to_s
-    port = btw.recent_pwt(port_number)
+    if valid_port
+      port = pwt_service.recent_pwt(port_number_param)
+      render json: port
+    else
+      render_404
+    end
+  end
 
-    render json: port
+  private
+
+  def port_service
+    PortsService.new
+  end
+
+  def pwt_service
+    BtwApiService.new
+  end
+
+  def port_number_param
+    params[:id].to_s
+  end
+
+  def valid_port
+    port_service.valid(port_number_param)
   end
 end

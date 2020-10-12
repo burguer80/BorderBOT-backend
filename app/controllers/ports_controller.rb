@@ -5,4 +5,8 @@ class PortsController < ApplicationController
     ports_service = PortsService.new
     render json: ports_service.all
   end
+
+  def show
+
+  end
 end

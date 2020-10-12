@@ -11,6 +11,10 @@ class PortsService
     ports
   end
 
+  def valid(port_number)
+    valid_ports_ids.include? port_number
+  end
+
   private
 
   EXPIRE_TIME = 1.day
@@ -38,5 +42,11 @@ class PortsService
       }
     end
     ports_list
+  end
+
+  def valid_ports_ids
+    Rails.cache.fetch(:valid_ports_ids, expires_in: EXPIRE_TIME) do
+      PortDetail.all.pluck(:number)
+    end
   end
 end
