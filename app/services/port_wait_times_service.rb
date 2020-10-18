@@ -8,8 +8,9 @@ class PortWaitTimesService
     bwt_list = []
     get_latest_bwt_json.map do |bwt|
       bwt_list << {
-        id: bwt['port_number'],
-        time_zone: port_time_zone(bwt)
+        name: "#{bwt['port_name']}, #{bwt['crossing_name']}, ",
+        port_number: bwt['port_number'],
+        time_zone: port_time_zone(bwt)&.last(3)
         # pulled_at:  "#{bwt['date']} #{bwt['time']} EDT",
       }
     end
