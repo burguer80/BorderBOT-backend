@@ -10,4 +10,5 @@ class PortDetail < ApplicationRecord
 
     full_name
   end
+
 end
