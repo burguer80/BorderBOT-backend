@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :health, only: [:index]
   resources :ports, only: [:index]
   resources :pwt, only: [:show]
+  resources :latest_wait_times, only: [:show]
 
 
   # Dokku

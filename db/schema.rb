@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_06_004127) do
+ActiveRecord::Schema.define(version: 2020_10_18_024754) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
   enable_extension "plpgsql"
 
   create_table "historical_wait_times", force: :cascade do |t|
@@ -60,7 +61,8 @@ ActiveRecord::Schema.define(version: 2020_03_06_004127) do
     t.jsonb "details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["details"], name: "index_port_details_on_details", using: :gin
+    t.string "time_zone"
+    t.index ["details"], name: "index_ports_infos_on_details", using: :gin
   end
 
   create_table "port_wait_times", force: :cascade do |t|

@@ -15,6 +15,12 @@ namespace :sync do
     PushDataJob.perform_now
   end
 
+  # TODO: leave just this rake task and remove all others with the related functionality
+  desc "Get latest PWT, transform and cache the data"
+  task get_latest_pwt_perform_now: :environment do
+    LatestPortWaitTimesJob.perform_now
+  end
+
   desc "Delete records older than 3 days"
   task delete_old_records: :environment do
     expiration_date = Date.today.beginning_of_day - 3.days
