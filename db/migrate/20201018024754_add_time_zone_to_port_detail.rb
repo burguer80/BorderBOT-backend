@@ -1,10 +1,11 @@
 class AddTimeZoneToPortDetail < ActiveRecord::Migration[6.0]
   def change
     add_column :port_details, :time_zone, :string
-    add_time_zone_to_port_details
+    add_time_zone_to_port_details unless Rails.env.test?
   end
 
   private
+
   PORTS = [
     {
       port_number: "070801",

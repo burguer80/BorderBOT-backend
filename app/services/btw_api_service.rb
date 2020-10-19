@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'net/http'
 
+# TODO: remove unnecessary code
+
 class BtwApiService
   include ERB::Util
   HOLIDAYS = [

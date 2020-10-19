@@ -2,11 +2,6 @@
 
 class PortsController < ApplicationController
   def index
-    ports_service = PortsService.new
-    render json: ports_service.all
-  end
-
-  def show
-
+    render json: PortsService.all
   end
 end

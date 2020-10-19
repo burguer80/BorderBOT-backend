@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# TODO: remove all the implementation related with this end point
 
 class BordersController < ApplicationController
 

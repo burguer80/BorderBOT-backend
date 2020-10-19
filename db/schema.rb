@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2020_10_18_024754) do
     t.index ["time_slot"], name: "index_holiday_wait_times_on_time_slot"
   end
 
-  create_table "port_details", id: :bigint, default: -> { "nextval('ports_infos_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "port_details", force: :cascade do |t|
     t.string "number"
     t.jsonb "details"
     t.datetime "created_at", null: false
