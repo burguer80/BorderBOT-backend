@@ -125,7 +125,7 @@ class AddTimeZoneToPortDetail < ActiveRecord::Migration[6.0]
     },
     {
       port_number: "250201",
-      time_zone: "PST"
+      time_zone: "PDT"
     },
     {
       port_number: "535501",
@@ -161,7 +161,7 @@ class AddTimeZoneToPortDetail < ActiveRecord::Migration[6.0]
     },
     {
       port_number: "260101",
-      time_zone: "PST"
+      time_zone: "PDT"
     },
     {
       port_number: "230301",
@@ -229,7 +229,7 @@ class AddTimeZoneToPortDetail < ActiveRecord::Migration[6.0]
     },
     {
       port_number: "260301",
-      time_zone: "PST"
+      time_zone: "PDT"
     },
     {
       port_number: "260401",
