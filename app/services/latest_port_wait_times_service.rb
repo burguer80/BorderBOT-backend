@@ -25,7 +25,7 @@ class LatestPortWaitTimesService
 
     def active_lanes(lanes)
       active_lanes = {}
-      active_lanes.merge!({fast: lanes['FAST_lanes']}) if lanes['FAST_lanes'].present?
+      active_lanes.merge!({fast: lanes['NEXUS_SENTRI_lanes']}) if lanes['NEXUS_SENTRI_lanes'].present?
       active_lanes.merge!({standard: lanes['standard_lanes']}) if lanes['standard_lanes'].present?
       active_lanes.merge!({ready: lanes['ready_lanes']}) if lanes['ready_lanes'].present?
       active_lanes
@@ -82,7 +82,6 @@ class LatestPortWaitTimesService
     end
 
     def update_time_from_vehicle_lanes(vehicle_lanes)
-      update_time_with_time_zone(vehicle_lanes&.dig('FAST_lanes', 'update_time')) ||
         update_time_with_time_zone(vehicle_lanes&.dig('NEXUS_SENTRI_lanes', 'update_time')) ||
         update_time_with_time_zone(vehicle_lanes&.dig('standard_lanes', 'update_time')) ||
         update_time_with_time_zone(vehicle_lanes&.dig('ready_lanes', 'update_time'))
