@@ -59,7 +59,7 @@ class LatestPortWaitTimesService
         },
         details: port_detail.details,
         hours: pwt['hours'],
-        last_update_time: "#{pwt['date']} #{port_time_zone(pwt) || ''}",
+        last_update_time: port_time_zone(pwt).present? ? "#{pwt['date']} #{port_time_zone(pwt)}" : '',
         port_time: "#{pwt['date']} #{pwt['time']}  #{port_detail.time_zone}"
       }
     end
