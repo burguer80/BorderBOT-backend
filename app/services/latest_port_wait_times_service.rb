@@ -78,17 +78,22 @@ class LatestPortWaitTimesService
     # TODO: these methods will help to convert the update_time based on the time zone
     # TODO: these methods could help to identify which port is open or not.
     def port_time_zone(pwt)
-      update_time_from_vehicle_lanes(pwt['commercial_vehicle_lanes']) || update_time_from_vehicle_lanes(pwt['passenger_vehicle_lanes']) || update_time_from_vehicle_lanes(pwt['pedestrian_lanes'])
+      port_time = update_time_from_vehicle_lanes(pwt['commercial_vehicle_lanes']) || update_time_from_vehicle_lanes(pwt['passenger_vehicle_lanes']) || update_time_from_vehicle_lanes(pwt['pedestrian_lanes'])
+      replace_time_strings(port_time)
     end
 
     def update_time_from_vehicle_lanes(vehicle_lanes)
-        update_time_with_time_zone(vehicle_lanes&.dig('NEXUS_SENTRI_lanes', 'update_time')) ||
+      update_time_with_time_zone(vehicle_lanes&.dig('NEXUS_SENTRI_lanes', 'update_time')) ||
         update_time_with_time_zone(vehicle_lanes&.dig('standard_lanes', 'update_time')) ||
         update_time_with_time_zone(vehicle_lanes&.dig('ready_lanes', 'update_time'))
     end
 
     def update_time_with_time_zone(updated_time)
       updated_time&.present? ? updated_time[3..-1] : nil
+    end
+
+    def replace_time_strings(port_time)
+      port_time&.sub! 'Noon', '12:00 pm'
     end
   end
 end
