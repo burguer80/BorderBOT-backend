@@ -93,7 +93,11 @@ class LatestPortWaitTimesService
     end
 
     def replace_time_strings(port_time)
-      port_time&.sub! 'Noon', '12:00 pm'
+      if port_time.present? && (port_time.include? 'Noon')
+        port_time.sub! 'Noon', '12:00 pm'
+      else
+        port_time
+      end
     end
   end
 end
