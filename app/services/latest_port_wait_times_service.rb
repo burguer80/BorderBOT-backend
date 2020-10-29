@@ -59,7 +59,7 @@ class LatestPortWaitTimesService
         },
         details: port_detail.details,
         hours: pwt['hours'],
-        last_update_time: "#{pwt['date']} #{port_time_zone(pwt) || ''}",
+        last_update_time: port_time_zone(pwt).present? ? "#{pwt['date']} #{port_time_zone(pwt)}" : '',
         port_time: "#{pwt['date']} #{pwt['time']}  #{port_detail.time_zone}"
       }
     end
@@ -93,7 +93,11 @@ class LatestPortWaitTimesService
     end
 
     def replace_time_strings(port_time)
-      port_time&.sub! 'Noon', '12:00 pm'
+      if port_time.present? && (port_time.include? 'Noon')
+        port_time.sub! 'Noon', '12:00 pm'
+      else
+        port_time
+      end
     end
   end
 end
