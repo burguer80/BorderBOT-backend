@@ -1,3 +1,5 @@
+# TODO: this module is not longer necessary it should be removed
+
 module Zortificator
   class ZortNgine
 

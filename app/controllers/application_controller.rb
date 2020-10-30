@@ -12,8 +12,4 @@ class ApplicationController < ActionController::API
   def valid_port
     render_404 unless PortsService.valid(port_number_param)
   end
-
-  def pwt_service
-    BtwApiService.new
-  end
 end

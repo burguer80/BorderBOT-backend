@@ -1,5 +1,6 @@
-# frozen_string_literal: true
 # TODO: remove all the implementation related with this end point
+
+# frozen_string_literal: true
 class BordersService
 
   def self.recents

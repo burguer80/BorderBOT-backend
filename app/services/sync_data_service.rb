@@ -1,5 +1,6 @@
-# frozen_string_literal: true
 # TODO: remove all the implementation related with this end point
+
+# frozen_string_literal: true
 class SyncDataService
   def self.ports_total
     port_details_cache

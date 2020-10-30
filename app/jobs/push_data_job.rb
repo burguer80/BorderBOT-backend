@@ -1,4 +1,5 @@
 # TODO: remove all the implementation related with this end point
+
 class PushDataJob < ApplicationJob
   queue_as :data_sync
 
