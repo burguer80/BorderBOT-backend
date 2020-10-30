@@ -1,3 +1,4 @@
+# TODO: ATM sidekiq is not needed, it will be used once this application is moved to a non restricted infrastructure
 ---
 :verbose: false
 :concurrency: 5

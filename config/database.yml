@@ -17,11 +17,3 @@ production:
   username: BorderBOT-backend
   url: <%= ENV['DATABASE_URL'] %>
   password: <%= ENV['BORDERBOT-BACKEND_DATABASE_PASSWORD'] %>
-
-
-
-
-# push db to heroku
-#
-# $ PGUSER=sergio.burgueno PGPASSWORD= heroku pg:push BorderBOT-backend_development DATABASE_URL -a burguerbot
-

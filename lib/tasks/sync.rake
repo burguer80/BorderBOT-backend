@@ -1,3 +1,4 @@
+# TODO: remove unnecessary code
 # frozen_string_literal: true
 
 namespace :sync do
@@ -51,20 +52,21 @@ namespace :sync do
     }
   end
 
-  # def pull_bwt_data_now_multithreading
-  #   btw = BtwApiService.new
-  #   threads = []
-  #   threads << Thread.new {
-  #     PullDataJob.perform_now
-  #   }
-  #   PortDetail.pluck(:number).each { |port_number|
-  #     threads << Thread.new {
-  #       BwtJob.perform_now(port_number)
-  #       btw.get_port_btw(port_number, today)
-  #     }
-  #   }
-  #   threads.each { |thr| thr.join }
-  # end
+  # TODO: POC with threads 👨‍🔬
+  def pull_bwt_data_now_multithreading
+    btw = BtwApiService.new
+    threads = []
+    threads << Thread.new {
+      PullDataJob.perform_now
+    }
+    PortDetail.pluck(:number).each { |port_number|
+      threads << Thread.new {
+        BwtJob.perform_now(port_number)
+        btw.get_port_btw(port_number, today)
+      }
+    }
+    threads.each { |thr| thr.join }
+  end
 
   def today
     Date.today.strftime("%Y-%m-%d")

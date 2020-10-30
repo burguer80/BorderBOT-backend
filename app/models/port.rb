@@ -1,3 +1,5 @@
+# TODO: This outdated logic should be removed
+
 require 'nokogiri'
 require 'open-uri'
 
