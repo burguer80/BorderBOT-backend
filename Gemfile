@@ -50,3 +50,5 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'firebase'
 gem 'sidekiq'
+gem "railties", ">= 5.2.2.1"
+gem "actionview", ">= 5.2.2.1"
