@@ -2,6 +2,8 @@
 
 class CacheService
   class << self
+    EXPIRE_TIME = 1.day
+
     def read(key_name)
       raise "key_name argument is required" unless key_name.present?
       object = Rails.cache.read(key_name.to_s)
@@ -18,9 +20,5 @@ class CacheService
       raise "key_name argument is required" unless key_name.present?
       Rails.cache.delete(key_name.to_s)
     end
-
-    private
-
-    EXPIRE_TIME = 1.day
   end
 end

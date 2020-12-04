@@ -1,5 +1,3 @@
-# TODO: Update this file once the front-end domain is defined
-
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins '*'

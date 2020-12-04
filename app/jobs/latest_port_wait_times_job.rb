@@ -3,6 +3,5 @@ class LatestPortWaitTimesJob < ApplicationJob
 
   def perform
     LatestPortWaitTimesService.call
-    nil
   end
 end

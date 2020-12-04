@@ -2,6 +2,16 @@
 
 class PortsController < ApplicationController
   def index
-    render json: PortsService.all
+    render_ports
+  end
+
+  private
+
+  def ports
+    PortsService.all
+  end
+
+  def render_ports
+    render json: ports
   end
 end
