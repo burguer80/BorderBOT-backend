@@ -8,7 +8,7 @@ class PortsController < ApplicationController
   private
 
   def ports
-    PortsService.all
+    Ports::All.new.call
   end
 
   def render_ports

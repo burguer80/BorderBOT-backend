@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Cache::Write do
-  subject(:service) { described_class.new }
+  subject(:service) { described_class.new(:some_key) }
 
   context 'with valid key_name and hash' do
     it 'should return success' do
-      expect(service.call('key_name', 'hash')).to eq true
+      expect(service.call('hash')).to eq true
     end
   end
 

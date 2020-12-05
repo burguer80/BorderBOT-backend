@@ -8,7 +8,7 @@ class LatestWaitTimesController < ApplicationController
   private
 
   def port
-    LatestPortWaitTimesService.find(port_number_param)
+    Ports::FindByPortNumber.new(port_number_param).call
   end
 
   def port_number_param
@@ -20,6 +20,6 @@ class LatestWaitTimesController < ApplicationController
   end
 
   def valid_port
-    render_404 unless PortsService.valid(port_number_param)
+    render_404 unless Ports::NumberValid.new.call(port_number_param)
   end
 end

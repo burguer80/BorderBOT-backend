@@ -3,19 +3,8 @@
 class LatestPortWaitTimesService
   class << self
     def call
-      latest_pwt = extract_ports
       save_to_cache(latest_pwt)
       latest_pwt
-    end
-
-    def find(number)
-      pwt = read_from_cache(number)
-      if pwt
-        pwt
-      else
-        call; nil
-        read_from_cache(number)
-      end
     end
 
     private
@@ -25,9 +14,9 @@ class LatestPortWaitTimesService
 
     def active_lanes(lanes)
       active_lanes = {}
-      active_lanes.merge!({fast: lanes['NEXUS_SENTRI_lanes']}) if lanes['NEXUS_SENTRI_lanes'].present?
-      active_lanes.merge!({standard: lanes['standard_lanes']}) if lanes['standard_lanes'].present?
-      active_lanes.merge!({ready: lanes['ready_lanes']}) if lanes['ready_lanes'].present?
+      active_lanes.merge!({ fast: lanes['NEXUS_SENTRI_lanes'] }) if lanes['NEXUS_SENTRI_lanes'].present?
+      active_lanes.merge!({ standard: lanes['standard_lanes'] }) if lanes['standard_lanes'].present?
+      active_lanes.merge!({ ready: lanes['ready_lanes'] }) if lanes['ready_lanes'].present?
       active_lanes
     end
 
@@ -35,7 +24,7 @@ class LatestPortWaitTimesService
       "#{PREFIX_KEY_NAME}#{number}"
     end
 
-    def extract_ports
+    def latest_pwt
       pwt_list = []
       get_latest_pwt_json.map do |pwt|
         pwt_list << pwt_formatted(pwt)
@@ -44,8 +33,7 @@ class LatestPortWaitTimesService
     end
 
     def get_latest_pwt_json
-      http = HttpService.new(LATEST_PWT_JSON_URL)
-      http.get_json
+      Http::Get.new(LATEST_PWT_JSON_URL).call
     end
 
     def pwt_formatted(pwt)
@@ -67,16 +55,10 @@ class LatestPortWaitTimesService
     def save_to_cache(latest_pwt)
       latest_pwt.each do |pwt|
         return nil unless pwt
-        CacheService.write(cache_key_name(pwt[:id]), pwt)
+        Cache::Write.new(cache_key_name(pwt[:id])).call(pwt)
       end
     end
 
-    def read_from_cache(number)
-      CacheService.read(cache_key_name(number))
-    end
-
-    # TODO: these methods will help to convert the update_time based on the time zone
-    # TODO: these methods could help to identify which port is open or not.
     def port_time_zone(pwt)
       port_time = update_time_from_vehicle_lanes(pwt['commercial_vehicle_lanes']) || update_time_from_vehicle_lanes(pwt['passenger_vehicle_lanes']) || update_time_from_vehicle_lanes(pwt['pedestrian_lanes'])
       replace_time_strings(port_time)
