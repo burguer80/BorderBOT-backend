@@ -48,7 +48,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem 'firebase'
 gem 'sidekiq'
 gem "railties", ">= 5.2.2.1"
 gem "actionview", ">= 5.2.2.1"

@@ -1,4 +1,3 @@
-# TODO: ATM sidekiq is not needed, it will be used once this application is moved to a non restricted infrastructure
 ---
 :verbose: false
 :concurrency: 5
@@ -10,7 +9,7 @@ production:
   :concurrency: <%=  ENV['SIDEKIQ_CONCURRENCY'] || 1 %>
 
 :queues:
-  - [critical, 1]
-  - [default, 1]
-  - [low, 1]
-  - [data_sync, 1]
+  - [ critical, 1 ]
+  - [ default, 1 ]
+  - [ low, 1 ]
+  - [ ports, 1 ]

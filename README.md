@@ -1,3 +1,5 @@
+![CI](https://github.com/burguer80/BorderBOT-backend/workflows/CI/badge.svg)
+
 # Border BOT 🤖
 ![BorderBOT](https://user-images.githubusercontent.com/47440/63899038-34df7e80-c9b0-11e9-9ff6-949a10d4fe8a.png)
 

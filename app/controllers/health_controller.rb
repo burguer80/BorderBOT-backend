@@ -1,6 +1,5 @@
 class HealthController < ApplicationController
   def index
-    response = {api: 'OK'}
-    render json: response, status: :ok
+    render status: 418
   end
 end
