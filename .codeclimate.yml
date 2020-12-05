@@ -36,6 +36,8 @@ plugins:
     checks:
       Rubocop/Style/RedundantSelf:
         enabled: false
+      Rubocop/Style/Documentation:
+        enabled: false
     channel: rubocop-0-74
   brakeman:
     enabled: true
