@@ -16,7 +16,7 @@
 #
 RSpec.configure do |config|
   require 'coveralls'
-  Coveralls.wear!
+  Coveralls.wear!('rails')
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
