@@ -9,14 +9,14 @@ class Ports::NumberValid
   private
 
   def port_numbers
-    stored_port_numbers || save_port_numbers
+    stored_port_numbers || save_port_numbers_to_cache
   end
 
   def stored_port_numbers
     Cache::Read.new(:valid_ports_ids).call
   end
 
-  def save_port_numbers
+  def save_port_numbers_to_cache
     all_port_numbers = PortDetail.all.pluck(:number)
     Cache::Write.new(:valid_ports_ids).call(all_port_numbers)
     stored_port_numbers

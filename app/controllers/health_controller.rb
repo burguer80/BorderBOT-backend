@@ -1,5 +1,5 @@
 class HealthController < ApplicationController
   def index
-    head :no_content
+    render status: 418
   end
 end

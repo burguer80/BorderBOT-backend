@@ -11,12 +11,8 @@ class Ports::FindByPortNumber < Ports::Base
 
   private
 
-  def prexifed_key_name
-    "#{PREFIX_KEY_NAME}#{@port_number}"
-  end
-
   def stored_port
-    Cache::Read.new(prexifed_key_name).call
+    Cache::Read.new(prefixed_port_number(@port_number)).call
   end
 
   def find

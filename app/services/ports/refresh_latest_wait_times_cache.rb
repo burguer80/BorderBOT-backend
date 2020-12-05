@@ -18,10 +18,6 @@ class Ports::RefreshLatestWaitTimesCache < Ports::Base
     active_lanes
   end
 
-  def cache_key_name(number)
-    "#{PREFIX_KEY_NAME}#{number}"
-  end
-
   def latest_pwt
     pwt_list = []
     get_latest_pwt_json.map do |pwt|
@@ -53,7 +49,9 @@ class Ports::RefreshLatestWaitTimesCache < Ports::Base
   def save_to_cache(latest_pwt)
     latest_pwt.each do |pwt|
       return nil unless pwt
-      Cache::Write.new(cache_key_name(pwt[:id])).call(pwt)
+      port_number = pwt[:id]
+      prefixed_port_number = prefixed_port_number(port_number)
+      Cache::Write.new(prefixed_port_number).call(pwt)
     end
   end
 

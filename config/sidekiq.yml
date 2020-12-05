@@ -9,7 +9,7 @@ production:
   :concurrency: <%=  ENV['SIDEKIQ_CONCURRENCY'] || 1 %>
 
 :queues:
-  - [critical, 1]
-  - [default, 1]
-  - [low, 1]
-  - [data_sync, 1]
+  - [ critical, 1 ]
+  - [ default, 1 ]
+  - [ low, 1 ]
+  - [ ports, 1 ]

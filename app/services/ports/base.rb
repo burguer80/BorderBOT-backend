@@ -1,3 +1,7 @@
 class Ports::Base
-  PREFIX_KEY_NAME = 'latest_pwt_'
+  PREFIX = 'latest_pwt_'
+
+  def prefixed_port_number(port_number)
+    "#{PREFIX}#{port_number}"
+  end
 end
