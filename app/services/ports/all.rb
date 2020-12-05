@@ -1,7 +1,7 @@
-# frozen_string_literal: true
 # TODO: Add test coverage
-class Ports::All
+# frozen_string_literal: true
 
+class Ports::All
   def call
     ports
   end
