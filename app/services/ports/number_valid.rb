@@ -23,6 +23,6 @@ class Ports::NumberValid
   end
 
   def valid?(port_number)
-    port_numbers.include? port_number
+    port_numbers&.include? port_number
   end
 end
