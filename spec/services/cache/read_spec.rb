@@ -42,7 +42,6 @@ RSpec.describe Cache::Read do
     let(:json_array) { parsed_array.to_json }
 
     context "JSON invokes" do
-
       after(:example) do
         cache_delete_service.send(:parsed_object)
       end
