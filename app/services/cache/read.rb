@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Cache::Read < Cache::Base
+class Cache::Read < Cache
   def call
     object.present? ? parsed_object : nil
   end

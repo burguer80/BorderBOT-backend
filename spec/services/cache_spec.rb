@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Cache::Base do
+RSpec.describe Cache do
 
   context 'with valid key_name' do
     it 'should return proper key_name' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Cache::Base
+class Cache
   attr_reader :key_name
 
   def initialize(key_name)
