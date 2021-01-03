@@ -2,11 +2,7 @@
 require 'net/http'
 require 'json'
 
-class Http::Get
-  def initialize(url)
-    @uri = URI(url)
-  end
-
+class Http::Get < Http
   def call
     response = Net::HTTP.get(@uri)
     JSON.parse(response)
