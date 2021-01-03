@@ -10,7 +10,7 @@ RSpec.describe Cache::Base do
     end
   end
 
-  context 'with invalid key_name' do
+  context 'with key_name not present' do
     it 'should return false is nil is passed as arg' do
       service = described_class.new(nil)
       expect(service.key_name).to be_falsey
