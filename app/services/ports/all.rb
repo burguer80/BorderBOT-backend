@@ -1,4 +1,3 @@
-# TODO: Add test coverage
 # frozen_string_literal: true
 
 class Ports::All

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Ports::NumberValid
 
   def call(port_number)

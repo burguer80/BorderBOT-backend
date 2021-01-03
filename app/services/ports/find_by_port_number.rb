@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Ports::FindByPortNumber < Ports::Base
+class Ports::FindByPortNumber < Ports
+
   def initialize(port_number)
     @port_number = port_number
   end

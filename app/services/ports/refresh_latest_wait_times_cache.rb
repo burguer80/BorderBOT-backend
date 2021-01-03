@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Ports::RefreshLatestWaitTimesCache < Ports::Base
+
+class Ports::RefreshLatestWaitTimesCache < Ports
 
   def call
     save_to_cache(latest_pwt)
