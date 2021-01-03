@@ -52,3 +52,5 @@ gem "railties", ">= 5.2.2.1"
 gem "actionview", ">= 5.2.2.1"
 
 gem 'coveralls', require: false
+gem "nokogiri", ">= 1.11.0.rc4"
+
