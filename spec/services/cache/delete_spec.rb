@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Cache::Delete do
   describe "#call" do
-    let(:cache) { Rails.cache }
+    let!(:cache) { Rails.cache }
 
     it 'should invoke Rails.cache.delete with proper arg' do
       expected_hash = { some_key: 'some_value' }

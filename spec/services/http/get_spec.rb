@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Http::Get do
   describe "#call" do
-    let(:some_domain) { 'https://domain.com/' }
-    let(:uri) { URI(some_domain) }
-    let(:json_response) { { key_name: 'value' }.to_json }
+    let!(:some_domain) { 'https://domain.com/' }
+    let!(:uri) { URI(some_domain) }
+    let!(:json_response) { { key_name: 'value' }.to_json }
 
     context "method invokations" do
       after(:example) do

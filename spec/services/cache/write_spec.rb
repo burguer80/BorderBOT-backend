@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Cache::Write do
-  let(:cache) { Rails.cache }
-  let(:parsed_hash) { { some_key: 'some_value' } }
-  let(:json_hash) { parsed_hash.to_json }
-  let(:service) { described_class.new(:some_key) }
-  let(:key_name) { parsed_hash.keys.first.to_s }
+  let!(:cache) { Rails.cache }
+  let!(:parsed_hash) { { some_key: 'some_value' } }
+  let!(:json_hash) { parsed_hash.to_json }
+  let!(:service) { described_class.new(:some_key) }
+  let!(:key_name) { parsed_hash.keys.first.to_s }
 
   describe "#call" do
     context 'with invalid arguments' do

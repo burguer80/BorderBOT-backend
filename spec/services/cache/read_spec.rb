@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Cache::Read do
-  let(:cache) { Rails.cache }
-  let(:parsed_hash) { { some_key: 'some_value' } }
-  let(:json_hash) { parsed_hash.to_json }
-  let(:key_name) { parsed_hash.keys.first.to_s }
-  let(:cache_delete_service) { described_class.new(key_name) }
+  let!(:cache) { Rails.cache }
+  let!(:parsed_hash) { { some_key: 'some_value' } }
+  let!(:json_hash) { parsed_hash.to_json }
+  let!(:key_name) { parsed_hash.keys.first.to_s }
+  let!(:cache_delete_service) { described_class.new(key_name) }
 
   before(:example) do
     cache.clear
