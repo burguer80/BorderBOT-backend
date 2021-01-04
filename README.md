@@ -1,22 +1,28 @@
 ![CI](https://github.com/burguer80/BorderBOT-backend/workflows/CI/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/6ce6a936d9b74089ea0a/maintainability)](https://codeclimate.com/github/burguer80/BorderBOT-backend/maintainability)
 
 # Border BOT 🤖
+
 ![BorderBOT](https://user-images.githubusercontent.com/47440/63899038-34df7e80-c9b0-11e9-9ff6-949a10d4fe8a.png)
 
 Ruby On Rails application to pull the latest Port Wait Times from the official site [U.S. CBP](https://bwt.cbp.gov/).
 
 # General Information
+
 - This project is in ***WIP***.
-- This project is over-engineering ***for Learning/Experimentation purposes***. 
+- This project is over-engineering ***for Learning/Experimentation purposes***.
 - Data is stored in a Redis DB.
-- Data persistence was removed temporary due the code refactoring it will be implemented once the front-end is finished. (to save 💵)
+- Data persistence was removed temporary due the code refactoring it will be implemented once the front-end is
+  finished. (to save 💵)
 
 **Future Plans**:
+
 - Add wait time predictions
 - Remove outdated logic that is not longer used
 - Deploy the application to a better deployment infrastructure with no restrictions.
 
 **Requirements**:
+
 - Ruby 2.7.0
 - Rails 6+
 - PostgreSQL
@@ -32,12 +38,11 @@ Ruby On Rails application to pull the latest Port Wait Times from the official s
 
         $ db create
         $ db migrate
-        
+
 3. Change directory to `BorderBOT-backend` and start the web server:
 
         $ cd BorderBOT-backend
         $ bin/rails server
-
 
 # Available End Points
 ---
@@ -49,6 +54,7 @@ Ruby On Rails application to pull the latest Port Wait Times from the official s
 [Demo](https://burguerbot-staging.herokuapp.com/health)
 
 Response:
+
 ```
 {
   "api": "OK"
@@ -64,6 +70,7 @@ Return an array with all the Ports details
 [Demo](https://burguerbot-staging.herokuapp.com/ports)
 
 Response:
+
 ```
 [
   {
@@ -83,6 +90,7 @@ Response:
  ...
 ]
 ```
+
 ---
 ***Latest Wait Time***
 
@@ -91,6 +99,7 @@ Response:
 [Demo](https://burguerbot-staging.herokuapp.com/latest_wait_times/230302)
 
 Response:
+
 ```
 {
   "id": "230302",

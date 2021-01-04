@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class Ports::All
 
+class Ports::All
   def call
     ports
   end

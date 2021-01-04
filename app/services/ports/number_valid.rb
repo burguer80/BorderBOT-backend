@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Ports::NumberValid
 
   def call(port_number)
@@ -23,6 +24,6 @@ class Ports::NumberValid
   end
 
   def valid?(port_number)
-    port_numbers.include? port_number
+    port_numbers&.include? port_number
   end
 end

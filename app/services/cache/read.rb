@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-class Cache::Read < Cache::Base
+class Cache::Read < Cache
   def call
-    return false unless @key_name.present?
     object.present? ? parsed_object : nil
   end
 

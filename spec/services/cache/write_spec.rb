@@ -1,21 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe Cache::Write do
-  subject(:service) { described_class.new(:some_key) }
+  let!(:cache) { Rails.cache }
+  let!(:parsed_hash) { { some_key: 'some_value' } }
+  let!(:json_hash) { parsed_hash.to_json }
+  let!(:service) { described_class.new(:some_key) }
+  let!(:key_name) { parsed_hash.keys.first.to_s }
 
-  context 'with valid key_name and hash' do
-    it 'should return success' do
-      expect(service.call('hash')).to eq true
+  describe "#call" do
+    context 'with invalid arguments' do
+      it 'should return false if empty or nil hash are provided' do
+        expect(service.call('')).to eq false
+        expect(service.call(nil)).to eq false
+      end
+
+      it 'should return ArgumentError if not arguments are provided ' do
+        expect { service.call }.to raise_error(ArgumentError)
+      end
     end
-  end
 
-  context 'with invalid arguments' do
-    it 'should return false if empty key_name and hash are provided' do
-      expect(service.call('', '')).to eq false
-    end
+    context 'with valid key_name' do
+      it 'should invoke Rails.cache.write with proper args, default_expire_time and return true' do
+        default_expire_time = { expires_in: 1.day }
+        expect(cache).to receive(:write).once.with(key_name, json_hash, default_expire_time).and_return(true)
 
-    it 'should return ArgumentError if not arguments are provided ' do
-      expect { service.call }.to raise_error(ArgumentError)
+        service.call(parsed_hash)
+      end
+
+      it 'should invoke Rails.cache.write with proper args, custom_expire_time and return true' do
+        expiration_time = 2.days
+        custom_expire_time = { expires_in: expiration_time }
+        expect(cache).to receive(:write).once.with(key_name, json_hash, custom_expire_time).and_return(true)
+
+        service.call(parsed_hash, expiration_time)
+      end
     end
   end
 end

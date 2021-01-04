@@ -1,0 +1,65 @@
+version: "2"
+checks:
+  argument-count:
+    config:
+      threshold: 4
+  complex-logic:
+    config:
+      threshold: 4
+  file-lines:
+    config:
+      threshold: 250
+  method-complexity:
+    config:
+      threshold: 5
+  method-count:
+    config:
+      threshold: 20
+  method-lines:
+    config:
+      threshold: 25
+  nested-control-flow:
+    config:
+      threshold: 4
+  return-statements:
+    config:
+      threshold: 4
+  similar-code:
+    enabled: true
+  identical-code:
+    enabled: true
+plugins:
+  bundler-audit:
+    enabled: true
+  rubocop:
+    enabled: true
+    checks:
+      Rubocop/Style/RedundantSelf:
+        enabled: false
+      Rubocop/Style/Documentation:
+        enabled: false
+    channel: rubocop-0-74
+  brakeman:
+    enabled: true
+  fixme:
+    enabled: true
+    checks:
+      TODO:
+        enabled: true
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - ruby
+exclude_patterns:
+  - "config/"
+  - "db/"
+  - "spec/"
+  - "test/"
+  - "**/vendor/"
+  - "app/assets/fonts/"
+  - "app/assets/images/"
