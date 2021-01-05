@@ -17,7 +17,6 @@ RSpec.describe Ports::All do
       cache_read_service = Cache::Read.new(ports_key_name)
       allow(Cache::Read).to receive(:new).with(ports_key_name).and_return(cache_read_service)
       expect(cache_read_service).to receive(:call).once
-
       ports_all_service.send(:stored_ports)
     end
   end
@@ -63,12 +62,8 @@ RSpec.describe Ports::All do
   end
 
   describe "#formatted_ports" do
-    let(:port_details_list) do
-      list = []
-      rand(1...10).times do
-        list << build(:port_detail)
-      end
-      list
+    let!(:port_details_list) do
+      build_list(:port_detail, 10)
     end
 
     it 'should return the proper formatted_ports' do
