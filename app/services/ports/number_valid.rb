@@ -3,7 +3,6 @@
 class Ports::NumberValid
 
   def call(port_number)
-    return false unless port_number.present?
     valid? port_number
   end
 

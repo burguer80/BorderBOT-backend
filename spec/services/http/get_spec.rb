@@ -7,9 +7,7 @@ RSpec.describe Http::Get do
     let!(:json_response) { { key_name: 'value' }.to_json }
 
     context "method invokations" do
-      after(:example) do
-        described_class.new(some_domain).call
-      end
+      after(:example) { described_class.new(some_domain).call }
 
       it 'should invoke the Net::HTTP.get with proper URI arg' do
         allow(JSON).to receive(:parse)
