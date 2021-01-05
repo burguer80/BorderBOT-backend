@@ -29,9 +29,7 @@ RSpec.describe Ports::All do
       allow(Cache::Write).to receive(:new).with(ports_key_name).and_return(cache_write_service)
     end
 
-    after(:example) do
-      ports_all_service.send(:save_ports)
-    end
+    after(:example) { ports_all_service.send(:save_ports) }
 
     it 'should Cache::Write call method with proper args' do
       allow(ports_all_service).to receive(:formatted_ports).once
@@ -45,9 +43,7 @@ RSpec.describe Ports::All do
   end
 
   describe "#ports" do
-    after(:example) do
-      ports_all_service.send(:ports)
-    end
+    after(:example) { ports_all_service.send(:ports) }
 
     it 'should invoke stored_ports if is not nil' do
       allow(ports_all_service).to receive(:stored_ports).once.and_return(true)
