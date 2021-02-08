@@ -42,10 +42,10 @@ class Ports::RefreshLatestWaitTimesCache < Ports
         pedestrian: active_lanes(pwt['pedestrian_lanes']),
         private: active_lanes(pwt['passenger_vehicle_lanes'])
       },
-      details: port_detail.details,
+      details: port_detail&.details,
       hours: pwt['hours'],
       last_update_time: port_time_zone(pwt).present? ? "#{pwt['date']} #{port_time_zone(pwt)}" : '',
-      port_time: "#{pwt['date']} #{pwt['time']}  #{port_detail.time_zone}"
+      port_time: "#{pwt['date']} #{pwt['time']}  #{port_detail&.time_zone}"
     }
   end
 
