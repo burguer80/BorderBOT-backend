@@ -3,3 +3,4 @@ class HealthController < ApplicationController
     render status: 418
   end
 end
+

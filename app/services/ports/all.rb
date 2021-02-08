@@ -21,9 +21,8 @@ class Ports::All
   end
 
   def formatted_ports
-    ports_list = []
-    PortDetail.all.each do |port|
-      ports_list << {
+    PortDetail.all.map do |port|
+      {
         id: port.number,
         details: port.details,
         time_zone: port.time_zone,
@@ -31,6 +30,5 @@ class Ports::All
         updated_at: port.updated_at
       }
     end
-    ports_list
   end
 end
