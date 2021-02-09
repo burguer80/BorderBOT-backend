@@ -21,18 +21,15 @@ RSpec.describe Cache::Write do
 
     context 'with valid key_name' do
       it 'should invoke Rails.cache.write with proper args, default_expire_time and return true' do
-        default_expire_time = { expires_in: 1.day }
-        expect(cache).to receive(:write).once.with(key_name, json_hash, default_expire_time).and_return(true)
+        expect(cache).to receive(:write).once.with(key_name, json_hash).and_return(true)
 
         service.call(parsed_hash)
       end
 
       it 'should invoke Rails.cache.write with proper args, custom_expire_time and return true' do
-        expiration_time = 2.days
-        custom_expire_time = { expires_in: expiration_time }
-        expect(cache).to receive(:write).once.with(key_name, json_hash, custom_expire_time).and_return(true)
+        expect(cache).to receive(:write).once.with(key_name, json_hash).and_return(true)
 
-        service.call(parsed_hash, expiration_time)
+        service.call(parsed_hash)
       end
     end
   end
