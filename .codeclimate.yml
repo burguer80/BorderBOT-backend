@@ -38,7 +38,7 @@ plugins:
         enabled: false
       Rubocop/Style/Documentation:
         enabled: false
-    channel: rubocop-0-74
+    channel: rubocop-0-92
   brakeman:
     enabled: true
   fixme:
