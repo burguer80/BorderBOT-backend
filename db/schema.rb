@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 2020_10_18_024754) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "time_zone"
-    t.index ["details"], name: "index_ports_infos_on_details", using: :gin
+    t.index ["details"], name: "index_port_details_on_details", using: :gin
   end
 
   create_table "port_wait_times", force: :cascade do |t|
