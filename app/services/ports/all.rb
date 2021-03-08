@@ -1,26 +1,19 @@
 # frozen_string_literal: true
 
 class Ports::All
+  include Cacheable
+
   def call
     fetch
   end
 
   private
 
-  def fetch
-    cached.presence || save_to_cache
+  def collection_name
+    :ports
   end
 
-  def cached
-    Cache::Read.new(:ports).call
-  end
-
-  def save_to_cache
-    Cache::Write.new(:ports).call(formatted_records)
-    cached
-  end
-
-  def formatted_records
+  def records
     PortDetail.all.map do |port|
       {
         id: port.number,
