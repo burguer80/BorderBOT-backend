@@ -2,25 +2,25 @@
 
 class Ports::All
   def call
-    ports
+    fetch
   end
 
   private
 
-  def stored_ports
+  def fetch
+    cached.presence || save_to_cache
+  end
+
+  def cached
     Cache::Read.new(:ports).call
   end
 
-  def save_ports
-    Cache::Write.new(:ports).call(formatted_ports)
-    stored_ports
+  def save_to_cache
+    Cache::Write.new(:ports).call(formatted_records)
+    cached
   end
 
-  def ports
-    stored_ports || save_ports
-  end
-
-  def formatted_ports
+  def formatted_records
     PortDetail.all.map do |port|
       {
         id: port.number,
