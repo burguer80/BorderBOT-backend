@@ -4,16 +4,14 @@ class Ports::All
   include Cacheable
 
   def call
-    fetch
+    Rails.cache.fetch(:ports, expires_in: 5.days) do
+      ports_with_details
+    end
   end
 
   private
 
-  def collection_name
-    :ports
-  end
-
-  def records
+  def ports_with_details
     PortDetail.all.map do |port|
       {
         id: port.number,
