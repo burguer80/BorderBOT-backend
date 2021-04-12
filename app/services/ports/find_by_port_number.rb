@@ -12,7 +12,8 @@ class Ports::FindByPortNumber < Ports
   private
 
   def find
-    return stored_port if stored_port.present?
+    port = stored_port
+    return port if port.present?
 
     Ports::RefreshLatestWaitTimesCache.new.call
     stored_port
