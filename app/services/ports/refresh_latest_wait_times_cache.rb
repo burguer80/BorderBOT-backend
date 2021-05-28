@@ -63,6 +63,7 @@ class Ports::RefreshLatestWaitTimesCache < Ports
       prefixed_port_number = prefixed_port_number(pwt[:id])
       Cache::Write.new(prefixed_port_number).call(pwt)
     end
+      Cache::Write.new(:latest_wait_times).call(latest_pwt)
     nil
   end
 
