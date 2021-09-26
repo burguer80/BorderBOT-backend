@@ -4,7 +4,7 @@ class LatestWaitTimesController < ApplicationController
   def index
     refresh_latest_wait_times_cache unless latest_wait_times
 
-    render json: latest_wait_times
+    render json: latest_wait_times_response
   end
 
   def show
@@ -15,6 +15,10 @@ class LatestWaitTimesController < ApplicationController
 
   def port
     Ports::FindByPortNumber.new(port_number_param).call
+  end
+
+  def port_ids_param
+    params[:port_ids]&.split(',') || []
   end
 
   def port_number_param
@@ -31,6 +35,14 @@ class LatestWaitTimesController < ApplicationController
 
   def latest_wait_times
     Cache::Read.new(:latest_wait_times).call
+  end
+
+  def latest_wait_times_response
+    if port_ids_param.present?
+      latest_wait_times.select { |port_details| port_ids_param.include? port_details["id"] }
+    else
+      latest_wait_times
+    end
   end
 
   def refresh_latest_wait_times_cache
