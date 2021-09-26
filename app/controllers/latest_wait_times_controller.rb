@@ -39,7 +39,7 @@ class LatestWaitTimesController < ApplicationController
 
   def latest_wait_times_response
     if port_ids_param.present?
-      latest_wait_times.select { |port_details| port_ids_param.include? port_details["id"] }
+      latest_wait_times.select { |port_details| port_ids_param.include? port_details['id'] }
     else
       latest_wait_times
     end

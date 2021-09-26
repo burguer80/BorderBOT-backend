@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cacheable
   def cached
     Cache::Read.new(collection_name).call
@@ -19,5 +21,4 @@ module Cacheable
     Cache::Write.new(collection_name).call(records)
     cached
   end
-
 end
