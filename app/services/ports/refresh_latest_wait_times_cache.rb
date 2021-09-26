@@ -60,10 +60,11 @@ class Ports::RefreshLatestWaitTimesCache < Ports
   def save_to_cache(latest_pwt)
     latest_pwt.each do |pwt|
       return nil unless pwt
-      port_number = pwt[:id]
-      prefixed_port_number = prefixed_port_number(port_number)
+      prefixed_port_number = prefixed_port_number(pwt[:id])
       Cache::Write.new(prefixed_port_number).call(pwt)
     end
+    Cache::Write.new(:latest_wait_times).call(latest_pwt)
+    nil
   end
 
   def update_time_from_vehicle_lanes(vehicle_lanes)

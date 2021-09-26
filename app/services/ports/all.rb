@@ -1,26 +1,15 @@
 # frozen_string_literal: true
 
 class Ports::All
+  include Cacheable
+
   def call
     ports
   end
 
   private
 
-  def stored_ports
-    Cache::Read.new(:ports).call
-  end
-
-  def save_ports
-    Cache::Write.new(:ports).call(formatted_ports)
-    stored_ports
-  end
-
-  def ports
-    stored_ports || save_ports
-  end
-
-  def formatted_ports
+  def all_ports
     PortDetail.all.map do |port|
       {
         id: port.number,
@@ -29,6 +18,12 @@ class Ports::All
         created_at: port.created_at,
         updated_at: port.updated_at
       }
+    end
+  end
+
+  def ports
+    Rails.cache.fetch(:ports, expires_in: 5.days) do
+      all_ports
     end
   end
 end
