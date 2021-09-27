@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
-# TODO this class could get cacheable module to remove most of the logic to cache the data
 class Ports::RefreshLatestWaitTimesCache < Ports
+  include Cacheable
+
+  # TODO: remove save_to_cache related logic when the show end-point is removed
 
   def call
     save_to_cache(latest_pwt)
+    # refresh_cache
   end
 
   private
@@ -17,6 +20,20 @@ class Ports::RefreshLatestWaitTimesCache < Ports
     active_lanes_list.merge!({ standard: lanes['standard_lanes'] }) if lanes['standard_lanes'].present?
     active_lanes_list.merge!({ ready: lanes['ready_lanes'] }) if lanes['ready_lanes'].present?
     active_lanes_list
+  end
+
+  def collection_name
+    :latest_wait_times
+  end
+
+  def records
+    get_latest_pwt_json.map do |pwt|
+      pwt_formatted(pwt)
+    end
+  end
+
+  def refresh_cache
+    fetch
   end
 
   def get_latest_pwt_json
