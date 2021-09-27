@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO this class could get cacheable module to remove most of the logic to cache the data
 class Ports::RefreshLatestWaitTimesCache < Ports
 
   def call
