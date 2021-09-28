@@ -1,28 +1,15 @@
 # frozen_string_literal: true
 
 class Ports::NumberValid
-
   def call(port_number)
     valid? port_number
   end
 
   private
 
-  def port_numbers
-    stored_port_numbers || save_port_numbers_to_cache
-  end
-
-  def stored_port_numbers
-    Cache::Read.new(:valid_ports_ids).call
-  end
-
-  def save_port_numbers_to_cache
-    all_port_numbers = PortDetail.all.pluck(:number)
-    Cache::Write.new(:valid_ports_ids).call(all_port_numbers)
-    stored_port_numbers
-  end
+  VALID_PORT_IDS = %w[010401 010601 010901 011501 011502 011503 020901 021101 021201 070101 070401 070801 071201 090101 090102 090103 090104 230201 230301 230302 230401 230402 230403 230404 230501 230502 230503 230701 230901 230902 231001 240201 240202 240203 240204 240301 240401 240601 240801 250201 250301 250302 250401 250407 250409 250501 250601 250602 260101 260201 260301 260401 260402 260403 260801 260802 300401 300402 300403 300901 302301 331001 340101 360401 380001 380002 380201 380301 535501 535502 535503 535504 l24501].freeze
 
   def valid?(port_number)
-    port_numbers&.include? port_number
+    VALID_PORT_IDS&.include? port_number
   end
 end
