@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Ports::FindByPortNumber < Ports
   # TODO: remove this when show enpoint is removed
 
