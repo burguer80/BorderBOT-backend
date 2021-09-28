@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Ports::RefreshLatestWaitTimesCache < Ports
+  include Cacheable
 
   def call
-    save_to_cache(latest_pwt)
+    refresh_cache
   end
 
   private
@@ -18,14 +19,28 @@ class Ports::RefreshLatestWaitTimesCache < Ports
     active_lanes_list
   end
 
-  def get_latest_pwt_json
-    Http::Get.new(LATEST_PWT_JSON_URL).call
+  def collection_name
+    :latest_wait_times
   end
 
-  def latest_pwt
+  def records
     get_latest_pwt_json.map do |pwt|
       pwt_formatted(pwt)
     end
+  end
+
+  def refresh_cache
+    port_wait_times = fetch
+    # TODO: remove this when show endpoint is removed
+    port_wait_times.each do |pwt|
+      return nil unless pwt
+      prefixed_port_number = prefixed_port_number(pwt['id'])
+      Cache::Write.new(prefixed_port_number).call(pwt)
+    end
+  end
+
+  def get_latest_pwt_json
+    Http::Get.new(LATEST_PWT_JSON_URL).call
   end
 
   def port_time_zone(pwt)
@@ -55,16 +70,6 @@ class Ports::RefreshLatestWaitTimesCache < Ports
     else
       port_time
     end
-  end
-
-  def save_to_cache(latest_pwt)
-    latest_pwt.each do |pwt|
-      return nil unless pwt
-      prefixed_port_number = prefixed_port_number(pwt[:id])
-      Cache::Write.new(prefixed_port_number).call(pwt)
-    end
-    Cache::Write.new(:latest_wait_times).call(latest_pwt)
-    nil
   end
 
   def update_time_from_vehicle_lanes(vehicle_lanes)

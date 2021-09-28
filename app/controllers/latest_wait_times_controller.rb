@@ -7,6 +7,7 @@ class LatestWaitTimesController < ApplicationController
     render json: latest_wait_times_response
   end
 
+  # TODO: remove show related logic since index now support filter param
   def show
     render_lwt_response
   end

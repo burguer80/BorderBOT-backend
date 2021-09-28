@@ -15,10 +15,10 @@ RSpec.describe Ports::RefreshLatestWaitTimesCache do
                  :port_time => "1/7/2021 18:51:44  EDT" } }
 
   describe "#call" do
-    it 'should call save_to_cache method with proper args' do
+    it 'should call refresh_cache' do
       latest_port_wait_times = [pwt, pwt, pwt]
-      allow(refresh_latest_times_cache_service).to receive(:latest_pwt).once.and_return(latest_port_wait_times)
-      expect(refresh_latest_times_cache_service).to receive(:save_to_cache).once.with(latest_port_wait_times)
+      allow(refresh_latest_times_cache_service).to receive(:refresh_cache).once.and_return(latest_port_wait_times)
+      expect(refresh_latest_times_cache_service).to receive(:refresh_cache).once
       refresh_latest_times_cache_service.call
     end
   end
@@ -89,18 +89,6 @@ RSpec.describe Ports::RefreshLatestWaitTimesCache do
       expect(http_get_service).to receive(:call).once.with(no_args)
 
       refresh_latest_times_cache_service.send(:get_latest_pwt_json)
-    end
-  end
-
-  describe "#latest_pwt" do
-    let!(:pwt_json) { { "port_number" => "070801", "border" => "Canadian Border", "port_name" => "Alexandria Bay", "crossing_name" => "Thousand Islands Bridge", "hours" => "24 hrs/day", "date" => "1/7/2021", "time" => "21:47:08", "port_status" => "Open", "commercial_vehicle_lanes" => { "maximum_lanes" => "5", "cv_automation_type" => "Manual", "cv_segment_from" => "", "cv_segment_to" => "", "cv_standard_tolerance" => "", "cv_fast_tolerance" => "", "standard_lanes" => { "update_time" => "At 9:00 pm EST", "operational_status" => "no delay", "delay_minutes" => "0", "lanes_open" => "1" }, "FAST_lanes" => { "update_time" => "", "operational_status" => "N/A", "delay_minutes" => "", "lanes_open" => "" } }, "passenger_vehicle_lanes" => { "maximum_lanes" => "8", "pv_automation_type" => "Manual", "pv_segment_from" => "", "pv_segment_to" => "", "pv_standard_tolerance" => "", "pv_nexus_sentri_tolerance" => "", "pv_ready_tolerance" => "", "standard_lanes" => { "update_time" => "At 9:00 pm EST", "operational_status" => "no delay", "delay_minutes" => "0", "lanes_open" => "1" }, "NEXUS_SENTRI_lanes" => { "update_time" => "", "operational_status" => "Lanes Closed", "delay_minutes" => "", "lanes_open" => "" }, "ready_lanes" => { "update_time" => "", "operational_status" => "N/A", "delay_minutes" => "", "lanes_open" => "" } }, "pedestrian_lanes" => { "maximum_lanes" => "N/A", "ped_automation_type" => "Manual", "ped_segment_from" => "", "ped_segment_to" => "", "ped_standard_tolerance" => "", "ped_ready_tolerance" => "", "standard_lanes" => { "update_time" => "", "operational_status" => "N/A", "delay_minutes" => "", "lanes_open" => "" }, "ready_lanes" => { "update_time" => "", "operational_status" => "N/A", "delay_minutes" => "", "lanes_open" => "" } }, "construction_notice" => "", "automation" => "0", "automation_enabled" => "0" } }
-    let!(:latest_pwt_json) { [pwt_json, pwt_json, pwt_json] }
-
-    it 'should invoke pwt_formatted method with the proper arg and the proper amount of times' do
-      allow(refresh_latest_times_cache_service).to receive(:get_latest_pwt_json).once.and_return(latest_pwt_json)
-      expect(refresh_latest_times_cache_service).to receive(:pwt_formatted).with(pwt_json).exactly(latest_pwt_json.size).times
-
-      refresh_latest_times_cache_service.send(:latest_pwt)
     end
   end
 

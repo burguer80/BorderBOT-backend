@@ -4,12 +4,20 @@ class Ports::All
   include Cacheable
 
   def call
-    ports
+    fetch_all_ports
   end
 
   private
 
-  def all_ports
+  def collection_name
+    :all_ports
+  end
+
+  def fetch_all_ports
+    fetch
+  end
+
+  def records
     PortDetail.all.map do |port|
       {
         id: port.number,
@@ -18,12 +26,6 @@ class Ports::All
         created_at: port.created_at,
         updated_at: port.updated_at
       }
-    end
-  end
-
-  def ports
-    Rails.cache.fetch(:ports, expires_in: 5.days) do
-      all_ports
     end
   end
 end
