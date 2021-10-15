@@ -8,7 +8,7 @@ gem 'rails'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '~> 5.5.0'
+gem 'puma'
 
 # Use Redis adapter to run Action Cable in production
 gem 'redis'
@@ -19,7 +19,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
-gem 'rack', '>= 2.s0.6'
+gem 'rack'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -31,9 +31,9 @@ group :development, :test do
 end
 
 group :test do
-  gem 'factory_bot_rails', '~> 4.0'
-  gem 'shoulda-matchers', '~> 3.1'
-  gem 'database_cleaner', '~> 1.7'
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers'
+  gem 'database_cleaner'
 end
 
 group :development do
@@ -48,9 +48,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'sidekiq'
-gem "railties", ">= 5.2.2.1"
-gem "actionview", ">= 5.2.2.1"
+gem "railties"
+gem "actionview"
 
 gem 'coveralls', require: false
-gem "nokogiri", ">= 1.11.0.rc4"
+gem "nokogiri"
 
