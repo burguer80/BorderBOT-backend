@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-git_source(:github) {|repo| "https://github.com/#{repo}.git"}
+git_source(:github) { |repo| 'https://github.com/#{repo}.git' }
 
 ruby ENV['CUSTOM_RUBY_VERSION'] || '3.0.1'
 
@@ -18,8 +18,8 @@ gem 'hiredis'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem 'rack-cors'
 gem 'rack'
+gem 'rack-cors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -32,8 +32,8 @@ end
 
 group :test do
   gem 'factory_bot_rails'
-  gem 'shoulda-matchers'
   gem 'database_cleaner'
+  gem 'shoulda-matchers'
 end
 
 group :development do
@@ -47,10 +47,10 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'dotenv-rails', groups: [:development, :test]
 
+gem 'actionview'
 gem 'sidekiq'
-gem "railties"
-gem "actionview"
+gem 'railties'
 
 gem 'coveralls', require: false
-gem "nokogiri"
+gem 'nokogiri'
 
