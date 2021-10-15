@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) {|repo| "https://github.com/#{repo}.git"}
 
-ruby ENV['CUSTOM_RUBY_VERSION'] || '3.0.0'
+ruby ENV['CUSTOM_RUBY_VERSION'] || '3.0.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
